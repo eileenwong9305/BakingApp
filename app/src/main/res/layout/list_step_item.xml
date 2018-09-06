@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@android:color/white"
+    android:padding="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
+
+    <TextView
+        android:id="@+id/detail_step_num_tv"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        tools:text="1"/>
+
+    <TextView
+        android:id="@+id/detail_short_desc_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Coolfsdfsdv dvdfvfdv scs sdv vsvddsvsdvsdv svsdvsv"/>
+
+</LinearLayout>

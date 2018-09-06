@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Baking</string>
+    <string name="serving_text">Servings: %1$d</string>
+    <string name="quantity_text">%1$s %2$s</string>
+    <string name="step_num">Step %1$d</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="steps">Steps:</string>
+    <string name="title_activity_step_desc">StepDescActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>
