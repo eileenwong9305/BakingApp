@@ -8,8 +8,6 @@ import com.example.android.baking.AppExecutors;
 import com.example.android.baking.AppRepository;
 import com.example.android.baking.database.AppDatabase;
 import com.example.android.baking.database.RecipeDao;
-import com.example.android.baking.ui.detail.DetailViewModel;
-import com.example.android.baking.ui.detail.DetailViewModelFactory;
 import com.example.android.baking.ui.main.MainViewModelFactory;
 import com.google.gson.GsonBuilder;
 
@@ -76,10 +74,5 @@ public class AppModule {
     @Provides
     MainViewModelFactory provideMainViewModelFactory(AppRepository repository) {
         return new MainViewModelFactory(repository);
-    }
-
-    @Provides
-    DetailViewModelFactory provideDetailViewModelFactory(AppRepository repository) {
-        return new DetailViewModelFactory(repository);
     }
 }

@@ -124,12 +124,4 @@ public class StepDetailFragment extends Fragment {
             exoPlayer = null;
         }
     }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

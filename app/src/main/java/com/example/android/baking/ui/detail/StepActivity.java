@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 
 public class StepActivity extends FragmentActivity {
 
-//    private String videoUrl;
     private int stepNumber;
     private List<Step> steps;
 
@@ -35,9 +34,6 @@ public class StepActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-//            if (intent.hasExtra(DetailListFragment.KEY_VIDEO_URL)){
-//                videoUrl = intent.getStringExtra(DetailListFragment.KEY_VIDEO_URL);
-//            }
             if (intent.hasExtra(DetailListFragment.KEY_STEP_NUMBER)){
                 stepNumber = intent.getIntExtra(DetailListFragment.KEY_STEP_NUMBER, 0);
             }
@@ -49,11 +45,5 @@ public class StepActivity extends FragmentActivity {
         stepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager(), steps);
         viewPager.setAdapter(stepCollectionPagerAdapter);
         viewPager.setCurrentItem(stepNumber);
-
-//        StepDetailFragment stepDetailFragment = new StepDetailFragment();
-//        stepDetailFragment.setDescription(description);
-//        stepDetailFragment.setVideoUrl(videoUrl);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.step_container, stepDetailFragment).commit();
     }
 }

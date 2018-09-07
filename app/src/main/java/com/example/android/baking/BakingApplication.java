@@ -1,23 +1,26 @@
 package com.example.android.baking;
 
+import android.app.Activity;
 import android.app.Application;
 
 import com.example.android.baking.di.AppComponent;
 import com.example.android.baking.di.AppModule;
 import com.example.android.baking.di.DaggerAppComponent;
 
-public class BakingApplication extends Application {
+import javax.inject.Inject;
 
-    private AppComponent appComponent;
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+public class BakingApplication extends DaggerApplication{
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        DaggerAppComponent.builder().application(this).build().inject(this);
-        appComponent = DaggerAppComponent.builder().application(this).build();
-    }
-
-    public AppComponent getAppComponent() {
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+        appComponent.inject(this);
         return appComponent;
     }
+
 }

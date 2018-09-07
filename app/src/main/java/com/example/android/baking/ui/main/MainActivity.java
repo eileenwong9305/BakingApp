@@ -24,10 +24,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
 
-    public static final String KEY_RECIPE_ID = "recipe_id";
+    public static final String KEY_RECIPE = "recipe";
 
     private RecipeAdapter adapter;
 
@@ -43,11 +45,11 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        ((BakingApplication) getApplication()).getAppComponent().inject(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @Override
     public void onClick(Recipe recipe) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        intent.putExtra(KEY_RECIPE_ID, recipe.getId());
+        intent.putExtra(KEY_RECIPE, recipe);
         startActivity(intent);
     }
 }

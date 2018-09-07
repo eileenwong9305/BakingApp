@@ -1,12 +1,11 @@
 package com.example.android.baking.ui.detail;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.NonNull;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.baking.BakingApplication;
 import com.example.android.baking.R;
 import com.example.android.baking.adapter.IngredientAdapter;
 import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
-import com.example.android.baking.data.Step;
 
 import java.util.ArrayList;
 
@@ -28,11 +25,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 
 public class DetailListFragment extends Fragment implements StepAdapter.StepItemClickListener {
-
-    @Inject
-    DetailViewModelFactory factory;
 
     @BindView(R.id.ingredients_rv)
     public RecyclerView ingredientsRecyclerView;
@@ -43,21 +38,19 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     @BindView(R.id.steps_rv)
     public RecyclerView stepsRecyclerView;
 
-    public static final String KEY_VIDEO_URL = "video_url";
-    public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_STEPS = "steps";
     public static final String KEY_STEP_NUMBER = "step_number";
-    public static final String BUNDLE_KEY_RECIPE_ID = "key_recipe_id";
+    private static final String ARG_KEY_RECIPE = "arg_recipe";
+    private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
 
     private Recipe mRecipe;
-    private int recipeId;
 
     public DetailListFragment() {}
 
-    public static DetailListFragment newInstance(int recipeId) {
+    public static DetailListFragment newInstance(Recipe recipe) {
         DetailListFragment detailListFragment = new DetailListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(BUNDLE_KEY_RECIPE_ID, recipeId);
+        bundle.putParcelable(ARG_KEY_RECIPE, recipe);
         detailListFragment.setArguments(bundle);
         return detailListFragment;
     }
@@ -65,6 +58,12 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(BUNDLE_KEY_RECIPE)) {
+            mRecipe = savedInstanceState.getParcelable(BUNDLE_KEY_RECIPE);
+        } else {
+            mRecipe = getRecipe();
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_detail_list, container, false);
         ButterKnife.bind(this, rootView);
 
@@ -84,49 +83,34 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
                 ingredientsRecyclerView.getContext(), ingredientLayoutManager.getOrientation());
         ingredientsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-
-        DetailViewModel viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
-        viewModel.getRecipe(getRecipeId()).observe(this, new Observer<Recipe>() {
-            @Override
-            public void onChanged(@Nullable Recipe recipe) {
-                if (recipe != null) {
-                    mRecipe = recipe;
-                    nameTextView.setText(mRecipe.getName());
-                    servingsTextView.setText(getString(R.string.serving_text, mRecipe.getServings()));
-                    ingredientAdapter.setIngredients(mRecipe.getIngredients());
-                    stepAdapter.setSteps(mRecipe.getSteps());
-                }
-            }
-        });
+        nameTextView.setText(mRecipe.getName());
+        servingsTextView.setText(getString(R.string.serving_text, mRecipe.getServings()));
+        ingredientAdapter.setIngredients(mRecipe.getIngredients());
+        stepAdapter.setSteps(mRecipe.getSteps());
 
         return rootView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        ((BakingApplication) getActivity().getApplication()).getAppComponent().inject(this);
-    }
-
-    public void setmRecipe(Recipe mRecipe) {
-        this.mRecipe = mRecipe;
-    }
-
-    private int getRecipeId() {
+    private Recipe getRecipe() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            return bundle.getInt(BUNDLE_KEY_RECIPE_ID, -1);
+            return bundle.getParcelable(ARG_KEY_RECIPE);
         }
-        return -1;
+        return null;
     }
 
     @Override
     public void onClick(int position) {
         Intent intent = new Intent(getActivity(), StepActivity.class);
-//        intent.putExtra(KEY_VIDEO_URL, step.getVideoURL());
-//        intent.putExtra(KEY_DESCRIPTION, step.getDescription());
         intent.putParcelableArrayListExtra(KEY_STEPS, (ArrayList) mRecipe.getSteps());
         intent.putExtra(KEY_STEP_NUMBER, position);
         startActivity(intent);
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_KEY_RECIPE, mRecipe);
+    }
+
 }
