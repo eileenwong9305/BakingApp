@@ -8,14 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.baking.R;
+import com.example.android.baking.data.Step;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StepActivity extends FragmentActivity {
 
-    private String videoUrl;
-    private String description;
+//    private String videoUrl;
+    private int stepNumber;
+    private List<Step> steps;
 
     StepCollectionPagerAdapter stepCollectionPagerAdapter;
     @BindView(R.id.pager)
@@ -30,21 +35,25 @@ public class StepActivity extends FragmentActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(DetailListFragment.KEY_VIDEO_URL)){
-                videoUrl = intent.getStringExtra(DetailListFragment.KEY_VIDEO_URL);
+//            if (intent.hasExtra(DetailListFragment.KEY_VIDEO_URL)){
+//                videoUrl = intent.getStringExtra(DetailListFragment.KEY_VIDEO_URL);
+//            }
+            if (intent.hasExtra(DetailListFragment.KEY_STEP_NUMBER)){
+                stepNumber = intent.getIntExtra(DetailListFragment.KEY_STEP_NUMBER, 0);
             }
-            if (intent.hasExtra(DetailListFragment.KEY_DESCRIPTION)){
-                description = intent.getStringExtra(DetailListFragment.KEY_DESCRIPTION);
+            if (intent.hasExtra(DetailListFragment.KEY_STEPS)) {
+                steps = intent.getParcelableArrayListExtra(DetailListFragment.KEY_STEPS);
             }
         }
 
-        stepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager());
+        stepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager(), steps);
         viewPager.setAdapter(stepCollectionPagerAdapter);
+        viewPager.setCurrentItem(stepNumber);
 
-        StepDetailFragment stepDetailFragment = new StepDetailFragment();
-        stepDetailFragment.setDescription(description);
-        stepDetailFragment.setVideoUrl(videoUrl);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.step_container, stepDetailFragment).commit();
+//        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+//        stepDetailFragment.setDescription(description);
+//        stepDetailFragment.setVideoUrl(videoUrl);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().add(R.id.step_container, stepDetailFragment).commit();
     }
 }

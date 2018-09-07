@@ -1,6 +1,5 @@
 package com.example.android.baking.ui.detail;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -8,30 +7,23 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.android.baking.AppExecutors;
 import com.example.android.baking.BakingApplication;
 import com.example.android.baking.R;
-import com.example.android.baking.adapter.IngredientAdapter;
-import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.main.MainActivity;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
 
     private int recipeId = 0;
     private Recipe mRecipe;
+
+    public static final String BUNDLE_KEY_RECIPE = "key_recipe";
 
     @Inject
     AppExecutors appExecutors;
@@ -54,6 +46,10 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+        DetailListFragment detailListFragment = DetailListFragment.newInstance(recipeId);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.detail_container, detailListFragment).commit();
+
 //        LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(this);
 //        ingredientsRecyclerView.setLayoutManager(ingredientLayoutManager);
 //        ingredientsRecyclerView.setHasFixedSize(true);
@@ -70,22 +66,22 @@ public class DetailActivity extends AppCompatActivity {
 //                ingredientsRecyclerView.getContext(), ingredientLayoutManager.getOrientation());
 //        ingredientsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
-        viewModel.getRecipe(recipeId).observe(this, new Observer<Recipe>() {
-            @Override
-            public void onChanged(@Nullable Recipe recipe) {
-                if (recipe != null) {
-                    mRecipe = recipe;
+//        viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
+//        viewModel.getRecipe(recipeId).observe(this, new Observer<Recipe>() {
+//            @Override
+//            public void onChanged(@Nullable Recipe recipe) {
+//                if (recipe != null) {
+//                    mRecipe = recipe;
 //                    nameTextView.setText(recipe.getName());
 //                    servingsTextView.setText(getString(R.string.serving_text, recipe.getServings()));
 //                    ingredientAdapter.setIngredients(mRecipe.getIngredients());
 //                    stepAdapter.setSteps(recipe.getSteps());
-                    DetailListFragment detailListFragment = new DetailListFragment();
-                    detailListFragment.setRecipe(recipe);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().add(R.id.detail_container, detailListFragment).commit();
-                }
-            }
-        });
+//                    DetailListFragment detailListFragment = new DetailListFragment();
+//                    detailListFragment.setmRecipe(recipe);
+//                    FragmentManager fragmentManager = getSupportFragmentManager();
+//                    fragmentManager.beginTransaction().add(R.id.detail_container, detailListFragment).commit();
+//                }
+//            }
+//        });
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.android.baking.BakingApplication;
 import com.example.android.baking.ui.detail.DetailActivity;
+import com.example.android.baking.ui.detail.DetailListFragment;
 import com.example.android.baking.ui.detail.DetailViewModel;
 import com.example.android.baking.ui.main.MainActivity;
 
@@ -19,6 +20,7 @@ public interface AppComponent {
     void inject(BakingApplication bakingApplication);
     void inject(MainActivity mainActivity);
     void inject(DetailActivity detailActivity);
+    void inject(DetailListFragment detailListFragment);
 
     @Component.Builder
     interface Builder {
