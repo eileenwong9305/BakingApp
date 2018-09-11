@@ -18,29 +18,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.baking.ExoPlayerVideoHandler;
 import com.example.android.baking.ExoPlayerViewManager;
 import com.example.android.baking.FullscreenActivity;
 import com.example.android.baking.R;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
 
 import javax.inject.Inject;
 
@@ -48,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 
-public class StepDetailFragment extends DaggerFragment {
+public class StepDetailFragment extends Fragment {
 
     public static final String KEY_VIDEO_URL_FULLSCREEN = "video_url_fullscreen";
 
@@ -63,8 +44,7 @@ public class StepDetailFragment extends DaggerFragment {
     private String videoUrl;
     private String description;
 
-    @Inject
-    public ExoPlayerVideoHandler videoHandler;
+    public ExoPlayerViewManager exoPlayerViewManager;
 
     public StepDetailFragment () {
 
@@ -78,6 +58,7 @@ public class StepDetailFragment extends DaggerFragment {
             videoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
             description = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC);
         }
+        exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, getContext());
     }
 
     @Nullable
@@ -101,13 +82,11 @@ public class StepDetailFragment extends DaggerFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        Log.e("IsVisibleToUser", String.valueOf(isVisibleToUser));
-        Log.e("IsVisibleToUser", String.valueOf(videoHandler));
         super.setUserVisibleHint(isVisibleToUser);
         if (!isVisibleToUser) {
-            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl).goToBackground();
+            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl, getContext()).goToBackground();
         } else {
-            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl).goToForeground();
+            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl, getContext()).goToForeground();
         }
     }
 
@@ -122,21 +101,27 @@ public class StepDetailFragment extends DaggerFragment {
             descTextView.setGravity(Gravity.CENTER_VERTICAL);
         } else {
             playerView.setVisibility(View.VISIBLE);
-
-            ExoPlayerViewManager.getInstance(videoUrl).prepareExoPlayer(getContext(), playerView);
-            ExoPlayerViewManager.getInstance(videoUrl).goToForeground();
+            exoPlayerViewManager.prepareExoPlayer(playerView);
+            exoPlayerViewManager.goToForeground();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ExoPlayerViewManager.getInstance(videoUrl).goToBackground();
+        exoPlayerViewManager.goToBackground();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e(getClass().getSimpleName(), "onStop");
+        exoPlayerViewManager.stopPlayer();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ExoPlayerViewManager.getInstance(videoUrl).releaseVideoPlayer();
+        exoPlayerViewManager.releaseVideoPlayer();
     }
 }

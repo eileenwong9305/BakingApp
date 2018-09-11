@@ -32,6 +32,7 @@ public class FullscreenActivity extends AppCompatActivity {
     FrameLayout fullScreenLayout;
 
     private String videoUrl;
+    private ExoPlayerViewManager exoPlayerViewManager;
     private boolean destroyVideo = true;
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -135,9 +136,9 @@ public class FullscreenActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN)) {
             videoUrl = intent.getStringExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN);
         }
-
-        ExoPlayerViewManager.getInstance(videoUrl).prepareExoPlayer(this, playerView);
-        ExoPlayerViewManager.getInstance(videoUrl).goToForeground();
+        exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, this);
+        exoPlayerViewManager.prepareExoPlayer(playerView);
+        exoPlayerViewManager.goToForeground();
 
         fullScreenLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,13 +158,19 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (destroyVideo) ExoPlayerViewManager.getInstance(videoUrl).releaseVideoPlayer();
+        if (destroyVideo) exoPlayerViewManager.releaseVideoPlayer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        ExoPlayerViewManager.getInstance(videoUrl).goToBackground();
+        exoPlayerViewManager.goToBackground();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        exoPlayerViewManager.stopPlayer();
     }
 
     @Override
