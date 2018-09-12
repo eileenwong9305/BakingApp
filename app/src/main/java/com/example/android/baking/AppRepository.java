@@ -64,7 +64,11 @@ public class AppRepository {
         return recipeDao.loadAllRecipes();
     }
 
-    public LiveData<Recipe> getRecipe(int recipeId) {
+    public LiveData<Recipe> getRecipes(int recipeId) {
+        return recipeDao.getRecipes(recipeId);
+    }
+
+    public Recipe getRecipe(int recipeId) {
         return recipeDao.getRecipe(recipeId);
     }
 

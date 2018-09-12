@@ -19,14 +19,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.detail.StepActivity" />
+        <activity android:name=".ui.detail.DetailActivity"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:launchMode="singleTop">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity"/>
+        </activity>
+        <activity android:name=".ui.detail.StepActivity"
+            android:parentActivityName=".ui.detail.DetailActivity"
+            android:launchMode="singleTop">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.detail.DetailActivity"/>
+        </activity>
         <activity
             android:name=".FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
             android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/FullscreenTheme" />
+
+        <service android:name=".ShowIngredientService"/>
+        <service android:name=".ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <receiver android:name=".AppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
+
+
     </application>
 
 </manifest>
