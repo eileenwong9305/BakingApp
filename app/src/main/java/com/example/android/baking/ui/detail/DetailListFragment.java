@@ -1,5 +1,6 @@
 package com.example.android.baking.ui.detail;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.content.Intent;
@@ -9,23 +10,22 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
+import com.example.android.baking.SharedViewModel;
 import com.example.android.baking.adapter.IngredientAdapter;
 import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.support.DaggerFragment;
 
 public class DetailListFragment extends Fragment implements StepAdapter.StepItemClickListener {
 
@@ -38,12 +38,15 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     @BindView(R.id.steps_rv)
     public RecyclerView stepsRecyclerView;
 
-    public static final String KEY_STEPS = "steps";
-    public static final String KEY_STEP_NUMBER = "step_number";
+
     private static final String ARG_KEY_RECIPE = "arg_recipe";
     private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
 
     private Recipe mRecipe;
+    private OnStepClickListener stepClickListener;
+//    private boolean mTwoPane;
+
+//    private SharedViewModel sharedViewModel;
 
     public DetailListFragment() {}
 
@@ -53,6 +56,26 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         bundle.putParcelable(ARG_KEY_RECIPE, recipe);
         detailListFragment.setArguments(bundle);
         return detailListFragment;
+    }
+
+    public interface OnStepClickListener {
+        void onStepSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            stepClickListener = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement OnStepClickListener");
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
     }
 
     @Nullable
@@ -99,12 +122,27 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         return null;
     }
 
+//    private boolean getTwoPane() {
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            return bundle.getBoolean("twoPane");
+//        }
+//        return false;
+//    }
+
     @Override
     public void onClick(int position) {
-        Intent intent = new Intent(getActivity(), StepActivity.class);
-        intent.putParcelableArrayListExtra(KEY_STEPS, (ArrayList) mRecipe.getSteps());
-        intent.putExtra(KEY_STEP_NUMBER, position);
-        startActivity(intent);
+//        if (getTwoPane()) {
+//            sharedViewModel.selectVideoUrl(mRecipe.getSteps().get(position).getVideoURL());
+//            sharedViewModel.selectDesc(mRecipe.getSteps().get(position).getDescription());
+//            Log.e(getClass().getSimpleName(), "twopanclick" + mRecipe.getSteps().get(position).getVideoURL());
+//        } else {
+//            Intent intent = new Intent(getActivity(), StepActivity.class);
+//            intent.putParcelableArrayListExtra(KEY_STEPS, (ArrayList) mRecipe.getSteps());
+//            intent.putExtra(KEY_STEP_NUMBER, position);
+//            startActivity(intent);
+//        }
+        stepClickListener.onStepSelected(position);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.android.baking.ui.detail;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.example.android.baking.ExoPlayerViewManager;
 import com.example.android.baking.FullscreenActivity;
 import com.example.android.baking.R;
+import com.example.android.baking.SharedViewModel;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import javax.inject.Inject;
@@ -46,6 +49,8 @@ public class StepDetailFragment extends Fragment {
 
     public ExoPlayerViewManager exoPlayerViewManager;
 
+//    private SharedViewModel model;
+
     public StepDetailFragment () {
 
     }
@@ -58,6 +63,7 @@ public class StepDetailFragment extends Fragment {
             videoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
             description = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC);
         }
+
         exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, getContext());
     }
 
@@ -90,7 +96,6 @@ public class StepDetailFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -122,6 +127,7 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.e(getClass().getSimpleName(), "onDestroy");
         exoPlayerViewManager.releaseVideoPlayer();
     }
 }

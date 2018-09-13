@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    tools:context=".ui.detail.DetailActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/layout_padding"
+        android:paddingRight="@dimen/layout_padding">
+
+        <TextView
+            android:id="@+id/detail_name_tv"
+            style="@style/DetailTitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nutella Pie" />
+
+        <TextView
+            android:id="@+id/detail_servings_tv"
+            style="@style/ServingStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient_icon_iv"
+            tools:text="Servings: 2" />
+
+        <ImageView
+            android:id="@+id/ingredient_icon_iv"
+            android:layout_width="@dimen/icon_image_size"
+            android:layout_height="@dimen/icon_image_size"
+            android:layout_marginTop="@dimen/subheading_margin_top"
+            android:src="@drawable/ingredients"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_name_tv" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/SectionHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ingredients"
+            app:layout_constraintBottom_toTopOf="@+id/ingredient_icon_iv"
+            app:layout_constraintStart_toEndOf="@+id/ingredient_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient_icon_iv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ingredients_rv"
+            style="@style/ContentRecyclerViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/separator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_servings_tv" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/detail_name_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/step_icon_iv"
+            android:layout_width="@dimen/icon_image_size"
+            android:layout_height="@dimen/icon_image_size"
+            android:layout_marginTop="@dimen/subheading_margin_top"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/whisk"
+            app:layout_constraintStart_toStartOf="@+id/separator"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_icon_iv" />
+
+        <TextView
+            style="@style/SectionHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/steps"
+            app:layout_constraintBottom_toTopOf="@+id/step_icon_iv"
+            app:layout_constraintStart_toEndOf="@+id/step_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/step_icon_iv" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/steps_rv"
+            style="@style/ContentRecyclerViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/separator"
+            app:layout_constraintTop_toBottomOf="@+id/step_icon_iv" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.NestedScrollView>

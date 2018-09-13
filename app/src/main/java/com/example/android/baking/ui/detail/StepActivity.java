@@ -41,11 +41,11 @@ public class StepActivity extends DaggerAppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(DetailListFragment.KEY_STEP_NUMBER)){
-                stepNumber = intent.getIntExtra(DetailListFragment.KEY_STEP_NUMBER, 0);
+            if (intent.hasExtra(DetailActivity.KEY_STEP_NUMBER)){
+                stepNumber = intent.getIntExtra(DetailActivity.KEY_STEP_NUMBER, 0);
             }
-            if (intent.hasExtra(DetailListFragment.KEY_STEPS)) {
-                steps = intent.getParcelableArrayListExtra(DetailListFragment.KEY_STEPS);
+            if (intent.hasExtra(DetailActivity.KEY_STEPS)) {
+                steps = intent.getParcelableArrayListExtra(DetailActivity.KEY_STEPS);
             }
         }
 
