@@ -49,8 +49,6 @@ public class StepDetailFragment extends Fragment {
 
     public ExoPlayerViewManager exoPlayerViewManager;
 
-//    private SharedViewModel model;
-
     public StepDetailFragment () {
 
     }
@@ -63,7 +61,6 @@ public class StepDetailFragment extends Fragment {
             videoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
             description = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC);
         }
-
         exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, getContext());
     }
 
@@ -73,7 +70,6 @@ public class StepDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
         ButterKnife.bind(this, rootView);
         descTextView.setText(description);
-
         fullscreenLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,8 +78,12 @@ public class StepDetailFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        Log.e(getClass().getSimpleName(), "onCreateView");
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -99,7 +99,6 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(getClass().getSimpleName(), "onResume");
         if (videoUrl == null || videoUrl.equals("")) {
             playerView.setVisibility(View.GONE);
             descTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,28f);
@@ -120,14 +119,17 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.e(getClass().getSimpleName(), "onStop");
         exoPlayerViewManager.stopPlayer();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e(getClass().getSimpleName(), "onDestroy");
-        exoPlayerViewManager.releaseVideoPlayer();
+        if (!getActivity().isChangingConfigurations()) {
+            Log.e(getClass().getSimpleName(), "release videoplayer");
+            exoPlayerViewManager.releaseVideoPlayer();
+        } else {
+            Log.e(getClass().getSimpleName(), "change orientation");
+        }
     }
 }

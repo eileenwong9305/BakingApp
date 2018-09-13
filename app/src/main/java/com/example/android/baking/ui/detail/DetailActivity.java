@@ -20,7 +20,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.android.baking.AppExecutors;
 import com.example.android.baking.AppWidget;
@@ -50,15 +52,23 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
 
     public static final String KEY_STEPS = "steps";
     public static final String KEY_STEP_NUMBER = "step_number";
+    private int totalSteps;
 
     private Recipe mRecipe;
     private SharedPreferences sharedPreferences;
     private boolean isSaved = false;
     private boolean twoPane;
+    private int currentPosition;
 
     @Nullable
     @BindView(R.id.step_container)
     FrameLayout stepContainerLayout;
+    @Nullable
+    @BindView(R.id.left_button)
+    ImageView leftButton;
+    @Nullable
+    @BindView(R.id.right_button)
+    ImageView rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,7 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
         if (intent != null) {
             if (intent.hasExtra(MainActivity.KEY_RECIPE)) {
                 mRecipe = intent.getParcelableExtra(MainActivity.KEY_RECIPE);
+                totalSteps = mRecipe.getSteps().size();
             }
         }
 
@@ -87,10 +98,27 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
 
         if (stepContainerLayout != null) {
             twoPane = true;
+            currentPosition = 0;
+            setupButton(currentPosition);
+            leftButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentPosition -= 1;
+                    setupButtonAndFragment(currentPosition);
+                }
+            });
+            rightButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentPosition += 1;
+                    setupButtonAndFragment(currentPosition);
+                }
+            });
+
             if (savedInstanceState == null) {
                 Bundle bundle = new Bundle();
-                bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC, mRecipe.getSteps().get(0).getDescription());
-                bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL, mRecipe.getSteps().get(0).getVideoURL());
+                bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC, mRecipe.getSteps().get(currentPosition).getDescription());
+                bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL, mRecipe.getSteps().get(currentPosition).getVideoURL());
                 StepDetailFragment stepDetailFragment = new StepDetailFragment();
                 stepDetailFragment.setArguments(bundle);
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -165,18 +193,43 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     @Override
     public void onStepSelected(int position) {
         if (twoPane) {
-            Step step = mRecipe.getSteps().get(position);
-            Bundle bundle = new Bundle();
-            bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC, step.getDescription());
-            bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL, step.getVideoURL());
-            StepDetailFragment stepDetailFragment = new StepDetailFragment();
-            stepDetailFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.step_container, stepDetailFragment).commit();
+            currentPosition = position;
+            setupButtonAndFragment(currentPosition);
         } else {
             Intent intent = new Intent(this, StepActivity.class);
             intent.putParcelableArrayListExtra(KEY_STEPS, (ArrayList) mRecipe.getSteps());
             intent.putExtra(KEY_STEP_NUMBER, position);
             startActivity(intent);
         }
+    }
+
+    private void changeFragment(int position) {
+        currentPosition = position;
+        Step step = mRecipe.getSteps().get(position);
+        Bundle bundle = new Bundle();
+        bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC, step.getDescription());
+        bundle.putString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL, step.getVideoURL());
+        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+        stepDetailFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.step_container, stepDetailFragment).commit();
+
+    }
+
+    private void setupButton(int position) {
+        if (position == 0) {
+            leftButton.setVisibility(View.INVISIBLE);
+            rightButton.setVisibility(View.VISIBLE);
+        } else if (position == totalSteps-1) {
+            leftButton.setVisibility(View.VISIBLE);
+            rightButton.setVisibility(View.INVISIBLE);
+        } else {
+            rightButton.setVisibility(View.VISIBLE);
+            leftButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupButtonAndFragment(int position) {
+        setupButton(position);
+        changeFragment(position);
     }
 }

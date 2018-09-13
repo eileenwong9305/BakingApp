@@ -10,7 +10,7 @@
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="240dp"/>
+        android:layout_height="300dp"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -32,9 +32,5 @@
                 tools:text="fdssvsdvdsvdsv"/>
 
         </FrameLayout>
-
     </android.support.v4.widget.NestedScrollView>
-
-
-
 </LinearLayout>

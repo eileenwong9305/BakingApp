@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@android:color/white"
+    android:background="@drawable/touch_selector"
     android:padding="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp">
 
     <TextView
         android:id="@+id/detail_step_num_tv"
-        android:layout_width="24dp"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textColor="@color/colorAccent"
-        tools:text="1"/>
+        tools:text="17"/>
 
     <TextView
         android:id="@+id/detail_short_desc_tv"

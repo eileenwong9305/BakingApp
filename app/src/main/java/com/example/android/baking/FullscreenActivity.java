@@ -112,10 +112,10 @@ public class FullscreenActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        Log.e(getClass().getSimpleName(), "onCreate");
+
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
-//        mContentView = findViewById(R.id.fullscreen_content);
-
 
         // Set up the user interaction to manually show or hide the system UI.
         playerView.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +158,10 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (destroyVideo) exoPlayerViewManager.releaseVideoPlayer();
+        Log.e(getClass().getSimpleName(), "onDestroy");
+        if (destroyVideo) {
+            exoPlayerViewManager.releaseVideoPlayer();
+        }
     }
 
     @Override

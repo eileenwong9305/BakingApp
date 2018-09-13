@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context=".ui.detail.StepActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"/>
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"/>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -32,9 +34,5 @@
                 tools:text="fdssvsdvdsvdsv"/>
 
         </FrameLayout>
-
     </android.support.v4.widget.NestedScrollView>
-
-
-
 </LinearLayout>
