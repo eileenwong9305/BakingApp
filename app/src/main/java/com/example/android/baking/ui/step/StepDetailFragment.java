@@ -1,12 +1,7 @@
-package com.example.android.baking.ui.detail;
+package com.example.android.baking.ui.step;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,17 +15,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.baking.ExoPlayerViewManager;
-import com.example.android.baking.FullscreenActivity;
+import com.example.android.baking.util.ExoPlayerViewManager;
+import com.example.android.baking.ui.full.FullscreenActivity;
 import com.example.android.baking.R;
-import com.example.android.baking.SharedViewModel;
 import com.google.android.exoplayer2.ui.PlayerView;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.support.DaggerFragment;
 
 public class StepDetailFragment extends Fragment {
 

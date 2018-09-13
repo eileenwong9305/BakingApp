@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.util;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

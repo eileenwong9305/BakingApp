@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.ui.full;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -6,13 +6,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.android.baking.ui.detail.StepDetailFragment;
+import com.example.android.baking.util.ExoPlayerViewManager;
+import com.example.android.baking.R;
+import com.example.android.baking.ui.step.StepDetailFragment;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import butterknife.BindView;
@@ -70,7 +71,6 @@ public class FullscreenActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
@@ -79,7 +79,6 @@ public class FullscreenActivity extends AppCompatActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
@@ -107,15 +106,10 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_fullscreen);
-
         ButterKnife.bind(this);
 
-        Log.e(getClass().getSimpleName(), "onCreate");
-
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
 
         // Set up the user interaction to manually show or hide the system UI.
         playerView.setOnClickListener(new View.OnClickListener() {
@@ -124,11 +118,6 @@ public class FullscreenActivity extends AppCompatActivity {
                 toggle();
             }
         });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 
         fullScreenImageView.setImageResource(R.drawable.exo_controls_fullscreen_exit);
 
@@ -158,7 +147,6 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(getClass().getSimpleName(), "onDestroy");
         if (destroyVideo) {
             exoPlayerViewManager.releaseVideoPlayer();
         }
@@ -200,7 +188,6 @@ public class FullscreenActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay

@@ -8,13 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import com.example.android.baking.ApiService;
-import com.example.android.baking.BakingApplication;
+import com.example.android.baking.util.ApiService;
 import com.example.android.baking.R;
 import com.example.android.baking.adapter.RecipeAdapter;
-import com.example.android.baking.data.Ingredient;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.detail.DetailActivity;
 
@@ -25,7 +22,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
 

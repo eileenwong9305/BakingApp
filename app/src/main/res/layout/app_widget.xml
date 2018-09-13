@@ -3,7 +3,7 @@
     android:id="@+id/app_widget_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFCC"
+    android:background="@color/colorWidgetBackground"
     android:padding="@dimen/widget_margin">
 
     <LinearLayout
@@ -16,21 +16,20 @@
             android:id="@+id/recipe_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorWidgetTitle"
+            android:padding="@dimen/widget_title_padding"
+            android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:padding="8dp"
-            android:background="#493D26"
-            android:textColor="@android:color/white"
-            tools:text="Nutella Pie Ingredient"/>
+            tools:text="Nutella Pie Ingredient" />
 
         <ListView
             android:id="@+id/ingredient_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:clickable="false"
-            android:listSelector="@android:color/transparent"/>
+            android:layout_marginLeft="@dimen/widget_list_margin"
+            android:layout_marginRight="@dimen/widget_list_margin"
+            android:listSelector="@android:color/transparent" />
 
     </LinearLayout>
 
@@ -38,7 +37,6 @@
         android:id="@+id/empty_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:layout_gravity="center"
         android:contentDescription="@string/empty_view_text"
         android:text="@string/empty_view_text"

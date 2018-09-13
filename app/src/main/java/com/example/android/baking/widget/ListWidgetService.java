@@ -1,6 +1,5 @@
-package com.example.android.baking;
+package com.example.android.baking.widget;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,21 +8,17 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.android.baking.R;
 import com.example.android.baking.data.Ingredient;
 import com.example.android.baking.data.Recipe;
-import com.example.android.baking.database.AppDatabase;
-import com.example.android.baking.database.RecipeDao;
-import com.example.android.baking.ui.detail.DetailActivity;
 import com.example.android.baking.ui.main.MainActivity;
+import com.example.android.baking.util.AppRepository;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DaggerIntentService;
-import dagger.android.DaggerService;
 
 public class ListWidgetService extends RemoteViewsService{
 
@@ -51,10 +46,6 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
         context = applicationContext;
         repository = appRepository;
         this.recipeId = recipeId;
-//        if (intent != null && intent.hasExtra(AppWidget.EXTRA_INGREDIENTS)) {
-//            ingredients = intent.getParcelableArrayListExtra(AppWidget.EXTRA_INGREDIENTS);
-//            Log.e(getClass().getSimpleName(), String.valueOf(ingredients));
-//        }
     }
 
     @Override

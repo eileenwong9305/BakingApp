@@ -1,10 +1,9 @@
 package com.example.android.baking.di;
 
-import com.example.android.baking.ListWidgetService;
-import com.example.android.baking.ShowIngredientService;
+import com.example.android.baking.widget.ListWidgetService;
+import com.example.android.baking.widget.ShowIngredientService;
 import com.example.android.baking.ui.detail.DetailActivity;
-import com.example.android.baking.ui.detail.DetailListFragment;
-import com.example.android.baking.ui.detail.StepActivity;
+import com.example.android.baking.ui.step.StepActivity;
 import com.example.android.baking.ui.main.MainActivity;
 
 import dagger.Module;

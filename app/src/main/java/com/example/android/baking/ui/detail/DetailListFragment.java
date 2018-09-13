@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
-import com.example.android.baking.SharedViewModel;
 import com.example.android.baking.adapter.IngredientAdapter;
 import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
@@ -44,9 +43,6 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
 
     private Recipe mRecipe;
     private OnStepClickListener stepClickListener;
-//    private boolean mTwoPane;
-
-//    private SharedViewModel sharedViewModel;
 
     public DetailListFragment() {}
 
@@ -75,7 +71,6 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        sharedViewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
     }
 
     @Nullable
@@ -122,26 +117,8 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         return null;
     }
 
-//    private boolean getTwoPane() {
-//        Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            return bundle.getBoolean("twoPane");
-//        }
-//        return false;
-//    }
-
     @Override
     public void onClick(int position) {
-//        if (getTwoPane()) {
-//            sharedViewModel.selectVideoUrl(mRecipe.getSteps().get(position).getVideoURL());
-//            sharedViewModel.selectDesc(mRecipe.getSteps().get(position).getDescription());
-//            Log.e(getClass().getSimpleName(), "twopanclick" + mRecipe.getSteps().get(position).getVideoURL());
-//        } else {
-//            Intent intent = new Intent(getActivity(), StepActivity.class);
-//            intent.putParcelableArrayListExtra(KEY_STEPS, (ArrayList) mRecipe.getSteps());
-//            intent.putExtra(KEY_STEP_NUMBER, position);
-//            startActivity(intent);
-//        }
         stepClickListener.onStepSelected(position);
     }
 

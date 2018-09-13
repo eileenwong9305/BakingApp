@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.detail.StepActivity">
+    tools:context=".ui.step.StepActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="@dimen/player_height_tablet" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -22,14 +21,10 @@
 
             <TextView
                 android:id="@+id/detail_desc_tv"
+                style="@style/DetailDescTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                tools:text="fdssvsdvdsvdsv"/>
+                tools:text="fdssvsdvdsvdsv" />
 
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>

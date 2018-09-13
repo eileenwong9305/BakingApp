@@ -4,8 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.example.android.baking.AppRepository;
-import com.example.android.baking.ui.main.MainViewModel;
+import com.example.android.baking.util.AppRepository;
 
 import javax.inject.Inject;
 

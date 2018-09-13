@@ -70,20 +70,20 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@+id/detail_name_tv"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/detail_name_tv" />
 
         <ImageView
             android:id="@+id/step_icon_iv"
             android:layout_width="@dimen/icon_image_size"
             android:layout_height="@dimen/icon_image_size"
-            android:layout_marginTop="@dimen/subheading_margin_top"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="@dimen/subheading_margin_top"
             android:src="@drawable/whisk"
-            app:layout_constraintStart_toStartOf="@+id/separator"
-            app:layout_constraintBottom_toBottomOf="@+id/ingredient_icon_iv" />
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_icon_iv"
+            app:layout_constraintStart_toStartOf="@+id/separator" />
 
         <TextView
             style="@style/SectionHead"

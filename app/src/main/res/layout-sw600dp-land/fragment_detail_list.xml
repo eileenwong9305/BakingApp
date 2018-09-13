@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<div>Icons made by <a href="https://www.flaticon.com/authors/mynamepong" title="mynamepong">mynamepong</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
-<!--<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
-<!--<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
+<?xml version="1.0" encoding="utf-8"?><!--<div>Icons made by <a href="https://www.flaticon.com/authors/mynamepong" title="mynamepong">mynamepong</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>--><!--<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>--><!--<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>-->
 
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_scroll"
@@ -22,9 +18,9 @@
 
         <TextView
             android:id="@+id/detail_name_tv"
+            style="@style/DetailTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/DetailTitleStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,9 +28,9 @@
 
         <TextView
             android:id="@+id/detail_servings_tv"
+            style="@style/ServingStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/ServingStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredient_icon_iv"
@@ -51,19 +47,19 @@
 
         <TextView
             android:id="@+id/textView"
+            style="@style/SectionHead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ingredients"
-            style="@style/SectionHead"
             app:layout_constraintBottom_toTopOf="@+id/ingredient_icon_iv"
             app:layout_constraintStart_toEndOf="@+id/ingredient_icon_iv"
             app:layout_constraintTop_toBottomOf="@+id/ingredient_icon_iv" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ingredients_rv"
+            style="@style/ContentRecyclerViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ContentRecyclerViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_servings_tv" />
@@ -78,19 +74,19 @@
             app:layout_constraintTop_toBottomOf="@+id/ingredients_rv" />
 
         <TextView
+            style="@style/SectionHead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/steps"
-            style="@style/SectionHead"
             app:layout_constraintBottom_toTopOf="@+id/step_icon_iv"
             app:layout_constraintStart_toEndOf="@+id/step_icon_iv"
             app:layout_constraintTop_toBottomOf="@+id/step_icon_iv" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/steps_rv"
+            style="@style/ContentRecyclerViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ContentRecyclerViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"

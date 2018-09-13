@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -9,11 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.example.android.baking.R;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.detail.DetailActivity;
 import com.example.android.baking.ui.main.MainActivity;
-
-import java.util.ArrayList;
 
 /**
  * Implementation of App Widget functionality.
@@ -40,7 +39,6 @@ public class AppWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.recipe_name_tv, recipe.getName());
 
             Intent intent = new Intent(context, ListWidgetService.class);
-//            intent.putExtra(EXTRA_INGREDIENTS, recipe.getId());
             views.setRemoteAdapter(R.id.ingredient_lv, intent);
             views.setEmptyView(R.id.ingredient_lv, R.id.empty_tv);
 
@@ -49,14 +47,11 @@ public class AppWidget extends AppWidgetProvider {
             views.setPendingIntentTemplate(R.id.ingredient_lv, appPendingIntent);
         }
 
-        // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
-        Log.e(getClass().getSimpleName(), "onUpdate");
         ShowIngredientService.startActionShowIngredient(context);
     }
 

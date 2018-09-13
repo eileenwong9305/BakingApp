@@ -4,10 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
@@ -15,38 +12,25 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.android.baking.AppExecutors;
-import com.example.android.baking.AppWidget;
-import com.example.android.baking.BakingApplication;
+import com.example.android.baking.widget.AppWidget;
 import com.example.android.baking.R;
-import com.example.android.baking.ShowIngredientService;
-import com.example.android.baking.adapter.IngredientAdapter;
-import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.data.Step;
 import com.example.android.baking.ui.main.MainActivity;
+import com.example.android.baking.ui.step.StepActivity;
+import com.example.android.baking.ui.step.StepCollectionPagerAdapter;
+import com.example.android.baking.ui.step.StepDetailFragment;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.DaggerAppCompatActivity;
-import dagger.android.support.HasSupportFragmentInjector;
 
 public class DetailActivity extends AppCompatActivity implements DetailListFragment.OnStepClickListener{
 

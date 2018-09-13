@@ -9,6 +9,29 @@
     <dimen name="serving_margin_bottom">4dp</dimen>
     <dimen name="subheading_margin_top">32dp</dimen>
     <dimen name="icon_image_size">24dp</dimen>
+    <dimen name="margin_page_indicator">16dp</dimen>
+    <dimen name="left_right_button_size">48dp</dimen>
+    <dimen name="button_margin">8dp</dimen>
+    <dimen name="widget_title_padding">8dp</dimen>
+    <dimen name="widget_list_margin">8dp</dimen>
+    <dimen name="fullscreen_icon_size">24dp</dimen>
+    <dimen name="fullscreen_button_size">32dp</dimen>
+    <dimen name="playback_padding_horizontal">4dp</dimen>
+    <dimen name="playback_space_vertical">4dp</dimen>
+    <dimen name="timebar_height">26dp</dimen>
+    <dimen name="player_height">240dp</dimen>
+    <dimen name="player_height_tablet">300dp</dimen>
+    <dimen name="detail_desc_margin">16dp</dimen>
+    <dimen name="ingredient_text_margin">8dp</dimen>
+    <dimen name="measure_text_margin">4dp</dimen>
+    <dimen name="main_image_size">100dp</dimen>
+    <dimen name="main_image_padding">20dp</dimen>
+    <dimen name="main_list_margin">8dp</dimen>
+    <dimen name="list_padding">8dp</dimen>
+    <dimen name="step_list_padding">8dp</dimen>
+    <dimen name="step_margin_vertical">4dp</dimen>
+    <dimen name="numbering_width">36dp</dimen>
+    <dimen name="line_spacing_extra">4dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

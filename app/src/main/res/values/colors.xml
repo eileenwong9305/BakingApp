@@ -7,4 +7,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="colorTitle">#242423</color>
     <color name="colorTextLight">#333533</color>
+    <color name="colorWidgetTitle">#493D26</color>
+    <color name="colorWidgetBackground">#FFFFCC</color>
+    <color name="colorPlaybackText">#FFBEBEBE</color>
+    <color name="colorPlaybackBackground">#CC000000</color>
 </resources>

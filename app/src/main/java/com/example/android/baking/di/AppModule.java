@@ -3,10 +3,9 @@ package com.example.android.baking.di;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.example.android.baking.ApiService;
-import com.example.android.baking.AppExecutors;
-import com.example.android.baking.AppRepository;
-import com.example.android.baking.ExoPlayerVideoHandler;
+import com.example.android.baking.util.ApiService;
+import com.example.android.baking.util.AppExecutors;
+import com.example.android.baking.util.AppRepository;
 import com.example.android.baking.database.AppDatabase;
 import com.example.android.baking.database.RecipeDao;
 import com.example.android.baking.ui.main.MainViewModelFactory;
@@ -75,11 +74,5 @@ public class AppModule {
     @Provides
     MainViewModelFactory provideMainViewModelFactory(AppRepository repository) {
         return new MainViewModelFactory(repository);
-    }
-
-    @Singleton
-    @Provides
-    ExoPlayerVideoHandler provideExoPlayerVideoHandler(){
-        return new ExoPlayerVideoHandler();
     }
 }

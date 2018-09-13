@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="@dimen/content_margin_vertical"
+    android:layout_marginTop="@dimen/content_margin_vertical"
     android:orientation="horizontal">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_check_box_outline_blank_black_24dp"/>
+        android:src="@drawable/ic_check_box_outline_blank_black_24dp" />
 
     <TextView
         android:id="@+id/detail_ingredient_tv"
+        style="@style/IngredientListTextStyle"
         android:layout_width="0dp"
-        android:layout_weight="3"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        tools:text="Sugar"/>
+        android:layout_weight="3"
+        tools:text="Sugar" />
 
     <TextView
         android:id="@+id/detail_quantity_tv"
+        style="@style/MeasureTextStyle"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="end"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        tools:text="2 spoons"
-        android:layout_marginRight="4dp"/>
+        android:layout_weight="1"
+        tools:text="2 spoons" />
 
 </LinearLayout>

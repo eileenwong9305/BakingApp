@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.util;
 
 import com.example.android.baking.data.Recipe;
 

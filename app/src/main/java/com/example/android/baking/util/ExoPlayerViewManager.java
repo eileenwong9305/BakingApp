@@ -1,4 +1,4 @@
-package com.example.android.baking;
+package com.example.android.baking.util;
 
 import android.content.Context;
 import android.media.AudioAttributes;
@@ -6,7 +6,6 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.media.AudioAttributesCompat;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -84,16 +83,10 @@ public class ExoPlayerViewManager {
             TrackSelector trackSelector =
                     new DefaultTrackSelector(videoTrackSelectionFactory);
 
-            // Create the player with previously created TrackSelector
             player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
 
-            // Load the SimpleExoPlayerView with the created player
-//            exoPlayerView.setPlayer(player);
-
-            // Measures bandwidth during playback. Can be null if not required.
             DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
 
-            // Produces DataSource instances through which media data is loaded.
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
                     context,
                     Util.getUserAgent(context, "BakingApp"),
@@ -114,27 +107,30 @@ public class ExoPlayerViewManager {
         if (!mAudioFocusGranted) {
             audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             int result;
-
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-                AudioAttributes playbackAttributes = new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
-                        .build();
-                focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
-                        .setAudioAttributes(playbackAttributes)
-                        .setOnAudioFocusChangeListener(focusChangeListener)
-                        .build();
-                result = audioManager.requestAudioFocus(focusRequest);
-            } else {
-                result = audioManager.requestAudioFocus(focusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE);
-            }
-            switch (result) {
-                case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
-                    mAudioFocusGranted = true;
-                    break;
-                case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
-                    mAudioFocusGranted = false;
-                    Log.e(getClass().getSimpleName(), "Failed to get audio focus");
+            if (audioManager != null) {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+                    AudioAttributes playbackAttributes = new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
+                            .build();
+                    focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                            .setAudioAttributes(playbackAttributes)
+                            .setOnAudioFocusChangeListener(focusChangeListener)
+                            .build();
+                    result = audioManager.requestAudioFocus(focusRequest);
+                } else {
+                    result = audioManager.requestAudioFocus(focusChangeListener,
+                            AudioManager.STREAM_MUSIC,
+                            AudioManager.AUDIOFOCUS_GAIN);
+                }
+                switch (result) {
+                    case AudioManager.AUDIOFOCUS_REQUEST_GRANTED:
+                        mAudioFocusGranted = true;
+                        break;
+                    case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
+                        mAudioFocusGranted = false;
+                        Log.e(getClass().getSimpleName(), "Failed to get audio focus");
+                }
             }
         }
         return mAudioFocusGranted;
@@ -166,7 +162,6 @@ public class ExoPlayerViewManager {
                 }
             }
         }
-
     }
 
     public void goToForeground() {
@@ -188,7 +183,6 @@ public class ExoPlayerViewManager {
                     mAudioIsPlaying = false;
                 }
             }
-
         }
         if (mAudioFocusGranted && audioManager != null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {

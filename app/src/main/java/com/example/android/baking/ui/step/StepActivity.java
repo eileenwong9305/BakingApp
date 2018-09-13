@@ -1,24 +1,18 @@
-package com.example.android.baking.ui.detail;
+package com.example.android.baking.ui.step;
 
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.Step;
+import com.example.android.baking.ui.detail.DetailActivity;
 import com.rd.PageIndicatorView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.DaggerActivity;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class StepActivity extends DaggerAppCompatActivity {

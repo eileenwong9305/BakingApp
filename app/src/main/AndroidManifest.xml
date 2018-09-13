@@ -25,24 +25,24 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity"/>
         </activity>
-        <activity android:name=".ui.detail.StepActivity"
+        <activity android:name=".ui.step.StepActivity"
             android:parentActivityName=".ui.detail.DetailActivity"
             android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.detail.DetailActivity"/>
         </activity>
         <activity
-            android:name=".FullscreenActivity"
+            android:name=".ui.full.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/FullscreenTheme" />
 
-        <service android:name=".ShowIngredientService"/>
-        <service android:name=".ListWidgetService"
+        <service android:name=".widget.ShowIngredientService"/>
+        <service android:name=".widget.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
-        <receiver android:name=".AppWidget">
+        <receiver android:name=".widget.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

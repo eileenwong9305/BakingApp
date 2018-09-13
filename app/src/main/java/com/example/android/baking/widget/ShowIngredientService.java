@@ -1,16 +1,16 @@
-package com.example.android.baking;
+package com.example.android.baking.widget;
 
 import android.appwidget.AppWidgetManager;
-import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 
+import com.example.android.baking.R;
 import com.example.android.baking.data.Recipe;
+import com.example.android.baking.util.AppRepository;
 
 import javax.inject.Inject;
 
@@ -28,7 +28,6 @@ public class ShowIngredientService extends DaggerIntentService {
     }
 
     public static void startActionShowIngredient(Context context) {
-        Log.e("ShowIngredientService", "startActionShowIngredient");
         Intent intent = new Intent(context, ShowIngredientService.class);
         intent.setAction(ACTION_SHOW_INGREDIENTS);
         context.startService(intent);
@@ -38,7 +37,6 @@ public class ShowIngredientService extends DaggerIntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
             if (ACTION_SHOW_INGREDIENTS.equals(intent.getAction())) {
-                Log.e(getClass().getSimpleName(), "ACTION_SHOW_INGREDIENTS");
                 handleActionShowIngredient();
             }
         }
