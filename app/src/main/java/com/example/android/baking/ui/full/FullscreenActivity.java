@@ -111,7 +111,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
         mVisible = true;
 
-        // Set up the user interaction to manually show or hide the system UI.
         playerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

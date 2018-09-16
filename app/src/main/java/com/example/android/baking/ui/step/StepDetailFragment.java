@@ -28,13 +28,13 @@ public class StepDetailFragment extends Fragment {
     public static final String KEY_VIDEO_URL_FULLSCREEN = "video_url_fullscreen";
 
     @BindView(R.id.player_view)
-    PlayerView playerView;
+    public PlayerView playerView;
     @BindView(R.id.detail_desc_tv)
-    TextView descTextView;
+    public TextView descTextView;
     @BindView(R.id.exo_fullscreen_button)
-    FrameLayout fullscreenLayout;
+    public FrameLayout fullscreenLayout;
     @BindView(R.id.exo_fullscreen_icon)
-    ImageView fullscreenIcon;
+    public ImageView fullscreenIcon;
     private String videoUrl;
     private String description;
 
@@ -117,8 +117,6 @@ public class StepDetailFragment extends Fragment {
         super.onDestroyView();
         if (!getActivity().isChangingConfigurations()) {
             exoPlayerViewManager.releaseVideoPlayer();
-        } else {
-            Log.e(getClass().getSimpleName(), "change orientation");
         }
     }
 }

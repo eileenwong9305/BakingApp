@@ -3,6 +3,7 @@ package com.example.android.baking.ui.step;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.Step;
@@ -15,16 +16,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class StepActivity extends DaggerAppCompatActivity {
+public class StepActivity extends AppCompatActivity {
 
     private int stepNumber;
     private List<Step> steps;
 
     StepCollectionPagerAdapter stepCollectionPagerAdapter;
     @BindView(R.id.pager)
-    ViewPager viewPager;
+    public ViewPager viewPager;
     @BindView(R.id.page_indicator_view)
-    PageIndicatorView pageIndicatorView;
+    public PageIndicatorView pageIndicatorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

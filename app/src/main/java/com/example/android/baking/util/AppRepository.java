@@ -39,11 +39,6 @@ public class AppRepository {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 final List<Recipe> recipes = response.body();
-                final List<Ingredient> ingredients = new ArrayList<>();
-                for (Recipe recipe : recipes) {
-                    List<Ingredient> ingredient = recipe.getIngredients();
-                }
-
                 appExecutors.diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -62,10 +57,6 @@ public class AppRepository {
     public LiveData<List<Recipe>> getRecipeList(){
         loadRecipe();
         return recipeDao.loadAllRecipes();
-    }
-
-    public LiveData<Recipe> getRecipes(int recipeId) {
-        return recipeDao.getRecipes(recipeId);
     }
 
     public Recipe getRecipe(int recipeId) {

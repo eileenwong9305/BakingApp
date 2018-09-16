@@ -15,12 +15,6 @@ public abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract MainActivity contributeMainActivity();
 
-    @ContributesAndroidInjector(modules = {FragmentModule.class})
-    abstract DetailActivity contributeDetailActivity();
-
-    @ContributesAndroidInjector(modules = {FragmentModule.class})
-    abstract StepActivity contributeStepActivity();
-
     @ContributesAndroidInjector
     abstract ShowIngredientService contributeShowIngredientService();
 

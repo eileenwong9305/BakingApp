@@ -15,6 +15,7 @@ import com.example.android.baking.ui.main.MainActivity;
 import com.example.android.baking.util.AppRepository;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -29,7 +30,6 @@ public class ListWidgetService extends RemoteViewsService{
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         AndroidInjection.inject(this);
         int recipeId = intent.getIntExtra(AppWidget.EXTRA_INGREDIENTS, -1);
-        Log.e(getClass().getSimpleName(), "create view factory");
         return new ListRemoteViewFactory(this.getApplicationContext(), appRepository, recipeId);
     }
 }
@@ -118,7 +118,7 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private String decimalFormat(float f) {
         if (f == (long) f) {
-            return String.format("%d", (long) f);
+            return String.format(Locale.US, "%d", (long) f);
         } else {
             return String.format("%s", f);
         }

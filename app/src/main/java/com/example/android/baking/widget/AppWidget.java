@@ -26,7 +26,6 @@ public class AppWidget extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-        Log.e("AppWidget", String.valueOf(recipe));
         if (recipe == null) {
             views.setViewVisibility(R.id.empty_tv, View.VISIBLE);
             views.setViewVisibility(R.id.show_ingredient, View.GONE);

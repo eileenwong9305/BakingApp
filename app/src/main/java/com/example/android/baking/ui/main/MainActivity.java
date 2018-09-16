@@ -64,18 +64,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             idlingResource.setIdleState(false);
         }
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         adapter = new RecipeAdapter(this, this);
         recyclerView.setAdapter(adapter);
-
-
 
         getIdlingResource();
     }
@@ -91,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             @Override
             public void onChanged(@Nullable List<Recipe> recipes) {
                 if (recipes != null && recipes.size()!=0) {
-                    Log.e(getClass().getSimpleName(), "recipe not null");
                     adapter.setRecipes(recipes);
                     if (idlingResource != null) {
                         idlingResource.setIdleState(true);

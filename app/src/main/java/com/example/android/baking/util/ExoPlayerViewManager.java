@@ -130,7 +130,6 @@ public class ExoPlayerViewManager {
                         break;
                     case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
                         mAudioFocusGranted = false;
-                        Log.e(getClass().getSimpleName(), "Failed to get audio focus");
                 }
             }
         }
@@ -155,49 +154,21 @@ public class ExoPlayerViewManager {
     }
 
     public void goToBackground() {
-        if (mAudioIsPlaying) {
-            if (player != null) {
-                if (mAudioFocusGranted) {
-                    player.setPlayWhenReady(false);
-                    mAudioIsPlaying = false;
-                    Log.e(getClass().getSimpleName(), "pause" + player);
-                } else Log.e(getClass().getSimpleName(), "not pause: AudioFocusNotGranted"  + player);
-            } else Log.e(getClass().getSimpleName(), "not pause: player is null"  + player);
-        } else Log.e(getClass().getSimpleName(), "not pause: audio not playing"  + player);
+        if (mAudioIsPlaying && player != null && mAudioFocusGranted) {
+            player.setPlayWhenReady(false);
+            mAudioIsPlaying = false;
+        }
     }
 
     public void goToForeground() {
-        if (!mAudioIsPlaying) {
-            if (player != null) {
-                if (mAudioFocusGranted || requestAudioFocus()) {
-                    Log.e(getClass().getSimpleName(), "player state: " + player.getPlaybackState());
-                    if (player.getPlaybackState() == Player.STATE_ENDED) {
-                        player.seekTo(0);
-                    }
-                    player.setPlayWhenReady(true);
-                    mAudioIsPlaying = true;
-                    Log.e(getClass().getSimpleName(), "play" + player);
-                } else Log.e(getClass().getSimpleName(), "not play: AudioFocusNotGranted"  + player);
-            } else Log.e(getClass().getSimpleName(), "not play: player is null"  + player );
-        } else Log.e(getClass().getSimpleName(), "not play: audio is playing" + player);
-    }
-
-    public void stopPlayer() {
-        if (mAudioIsPlaying) {
-            if (player != null) {
-                if (mAudioFocusGranted) {
-                    player.stop();
-                    mAudioIsPlaying = false;
+        if (!mAudioIsPlaying && player != null) {
+            if (mAudioFocusGranted || requestAudioFocus()) {
+                if (player.getPlaybackState() == Player.STATE_ENDED) {
+                    player.seekTo(0);
                 }
+                player.setPlayWhenReady(true);
+                mAudioIsPlaying = true;
             }
-        }
-        if (mAudioFocusGranted && audioManager != null) {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-                audioManager.abandonAudioFocusRequest(focusRequest);
-            } else {
-                audioManager.abandonAudioFocus(focusChangeListener);
-            }
-            mAudioFocusGranted = false;
         }
     }
 }
