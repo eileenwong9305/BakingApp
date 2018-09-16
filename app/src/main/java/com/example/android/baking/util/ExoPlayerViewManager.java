@@ -6,7 +6,6 @@ import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.SurfaceView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -37,24 +36,13 @@ public class ExoPlayerViewManager {
     private AudioManager audioManager;
     private AudioFocusRequest focusRequest;
     private AudioManager.OnAudioFocusChangeListener focusChangeListener;
-
-    public static ExoPlayerViewManager getInstance(String videoUri, Context context) {
-        ExoPlayerViewManager instance = instances.get(videoUri);
-        if (instance == null) {
-            instance = new ExoPlayerViewManager(videoUri, context);
-            instances.put(videoUri, instance);
-        }
-        return instance;
-    }
-
     private SimpleExoPlayer player;
     private boolean mAudioFocusGranted = false;
     private boolean mAudioIsPlaying = false;
-
     private ExoPlayerViewManager(String videoUri, Context context) {
         this.videoUri = Uri.parse(videoUri);
         this.context = context;
-        focusChangeListener =  new AudioManager.OnAudioFocusChangeListener() {
+        focusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
@@ -71,6 +59,15 @@ public class ExoPlayerViewManager {
                 }
             }
         };
+    }
+
+    public static ExoPlayerViewManager getInstance(String videoUri, Context context) {
+        ExoPlayerViewManager instance = instances.get(videoUri);
+        if (instance == null) {
+            instance = new ExoPlayerViewManager(videoUri, context);
+            instances.put(videoUri, instance);
+        }
+        return instance;
     }
 
     public void prepareExoPlayer(PlayerView exoPlayerView) {

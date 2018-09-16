@@ -58,7 +58,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void clickRecipeListItem_OpensDetailActivity(){
+    public void clickRecipeListItem_OpensDetailActivity() {
         onView(ViewMatchers.withId(R.id.rv)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(1, click()));
         intended(IntentMatchers.hasComponent(DetailActivity.class.getName()));

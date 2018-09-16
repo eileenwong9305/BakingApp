@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,9 +14,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.baking.util.ExoPlayerViewManager;
-import com.example.android.baking.ui.full.FullscreenActivity;
 import com.example.android.baking.R;
+import com.example.android.baking.ui.full.FullscreenActivity;
+import com.example.android.baking.util.ExoPlayerViewManager;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import butterknife.BindView;
@@ -35,12 +34,11 @@ public class StepDetailFragment extends Fragment {
     public FrameLayout fullscreenLayout;
     @BindView(R.id.exo_fullscreen_icon)
     public ImageView fullscreenIcon;
+    public ExoPlayerViewManager exoPlayerViewManager;
     private String videoUrl;
     private String description;
 
-    public ExoPlayerViewManager exoPlayerViewManager;
-
-    public StepDetailFragment () {
+    public StepDetailFragment() {
 
     }
 
@@ -97,7 +95,7 @@ public class StepDetailFragment extends Fragment {
         super.onResume();
         if (videoUrl == null || videoUrl.equals("")) {
             playerView.setVisibility(View.GONE);
-            descTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP,28f);
+            descTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f);
             descTextView.setGravity(Gravity.CENTER_VERTICAL);
         } else {
             playerView.setVisibility(View.VISIBLE);

@@ -3,22 +3,20 @@ package com.example.android.baking.ui.main;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import com.example.android.baking.util.ApiService;
 import com.example.android.baking.R;
 import com.example.android.baking.adapter.RecipeAdapter;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.detail.DetailActivity;
+import com.example.android.baking.util.ApiService;
 import com.example.android.baking.util.SimpleIdlingResource;
 
 import java.util.List;
@@ -32,20 +30,16 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener {
 
     public static final String KEY_RECIPE = "recipe";
-
-    private RecipeAdapter adapter;
-
     @BindView(R.id.rv)
     public RecyclerView recyclerView;
-
     @Inject
     MainViewModelFactory viewModelFactory;
     MainViewModel viewModel;
-
     @Inject
     ApiService apiService;
-
-    @Nullable private SimpleIdlingResource idlingResource;
+    private RecipeAdapter adapter;
+    @Nullable
+    private SimpleIdlingResource idlingResource;
 
     @VisibleForTesting
     @NonNull
@@ -85,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> recipes) {
-                if (recipes != null && recipes.size()!=0) {
+                if (recipes != null && recipes.size() != 0) {
                     adapter.setRecipes(recipes);
                     if (idlingResource != null) {
                         idlingResource.setIdleState(true);

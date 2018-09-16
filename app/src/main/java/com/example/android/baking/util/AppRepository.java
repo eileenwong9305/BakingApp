@@ -4,11 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import com.example.android.baking.data.Ingredient;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.database.RecipeDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +32,7 @@ public class AppRepository {
         recipeList = new MutableLiveData<>();
     }
 
-    public void loadRecipe(){
+    public void loadRecipe() {
         apiService.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
@@ -54,7 +52,7 @@ public class AppRepository {
         });
     }
 
-    public LiveData<List<Recipe>> getRecipeList(){
+    public LiveData<List<Recipe>> getRecipeList() {
         loadRecipe();
         return recipeDao.loadAllRecipes();
     }

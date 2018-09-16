@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.Recipe;
@@ -48,7 +47,6 @@ public class ShowIngredientService extends DaggerIntentService {
                 Context.MODE_PRIVATE);
         int savedRecipeId = sharedPreferences.getInt(getString(R.string.preference_key_save_recipe), -1);
         Recipe recipe = appRepository.getRecipe(savedRecipeId);
-        Log.e(getClass().getSimpleName(), String.valueOf(recipe));
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ShowIngredientService.this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(ShowIngredientService.this, AppWidget.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredient_lv);

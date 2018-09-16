@@ -1,16 +1,13 @@
 package com.example.android.baking.ui.detail;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +18,13 @@ import com.example.android.baking.adapter.IngredientAdapter;
 import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailListFragment extends Fragment implements StepAdapter.StepItemClickListener {
 
+    private static final String ARG_KEY_RECIPE = "arg_recipe";
+    private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
     @BindView(R.id.ingredients_rv)
     public RecyclerView ingredientsRecyclerView;
     @BindView(R.id.detail_name_tv)
@@ -36,15 +33,11 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     public TextView servingsTextView;
     @BindView(R.id.steps_rv)
     public RecyclerView stepsRecyclerView;
-
-
-    private static final String ARG_KEY_RECIPE = "arg_recipe";
-    private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
-
     private Recipe mRecipe;
     private OnStepClickListener stepClickListener;
 
-    public DetailListFragment() {}
+    public DetailListFragment() {
+    }
 
     public static DetailListFragment newInstance(Recipe recipe) {
         DetailListFragment detailListFragment = new DetailListFragment();
@@ -52,10 +45,6 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         bundle.putParcelable(ARG_KEY_RECIPE, recipe);
         detailListFragment.setArguments(bundle);
         return detailListFragment;
-    }
-
-    public interface OnStepClickListener {
-        void onStepSelected(int position);
     }
 
     @Override
@@ -126,6 +115,10 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_KEY_RECIPE, mRecipe);
+    }
+
+    public interface OnStepClickListener {
+        void onStepSelected(int position);
     }
 
 }

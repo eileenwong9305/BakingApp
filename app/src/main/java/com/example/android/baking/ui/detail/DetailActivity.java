@@ -3,23 +3,22 @@ package com.example.android.baking.ui.detail;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.android.baking.widget.AppWidget;
 import com.example.android.baking.R;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.data.Step;
@@ -27,24 +26,17 @@ import com.example.android.baking.ui.main.MainActivity;
 import com.example.android.baking.ui.step.StepActivity;
 import com.example.android.baking.ui.step.StepCollectionPagerAdapter;
 import com.example.android.baking.ui.step.StepDetailFragment;
+import com.example.android.baking.widget.AppWidget;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements DetailListFragment.OnStepClickListener{
+public class DetailActivity extends AppCompatActivity implements DetailListFragment.OnStepClickListener {
 
     public static final String KEY_STEPS = "steps";
     public static final String KEY_STEP_NUMBER = "step_number";
-
-    private int totalSteps;
-    private Recipe mRecipe;
-    private SharedPreferences sharedPreferences;
-    private boolean isSaved = false;
-    private boolean twoPane;
-    private int currentPosition;
-
     @Nullable
     @BindView(R.id.step_container)
     public FrameLayout stepContainerLayout;
@@ -54,6 +46,12 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     @Nullable
     @BindView(R.id.right_button)
     public ImageView rightButton;
+    private int totalSteps;
+    private Recipe mRecipe;
+    private SharedPreferences sharedPreferences;
+    private boolean isSaved = false;
+    private boolean twoPane;
+    private int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +133,7 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         invalidateOptionsMenu();
-        if (isSaved){
+        if (isSaved) {
             menu.findItem(R.id.action_save).setIcon(getResources().getDrawable(R.drawable.ic_favorite));
         } else {
             menu.findItem(R.id.action_save).setIcon(getResources().getDrawable(R.drawable.ic_favorite_border));
@@ -146,7 +144,7 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        switch(itemId) {
+        switch (itemId) {
             case R.id.action_save:
                 if (isSaved) {
                     sharedPreferences.edit().putInt(getString(R.string.preference_key_save_recipe), -1).apply();

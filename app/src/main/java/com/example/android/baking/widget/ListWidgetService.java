@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-public class ListWidgetService extends RemoteViewsService{
+public class ListWidgetService extends RemoteViewsService {
 
     @Inject
     AppRepository appRepository;
@@ -83,7 +82,6 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
         if (recipe == null || ingredients == null || ingredients.size() == 0) return null;
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_widget);
         Ingredient ingredient = ingredients.get(i);
-        Log.e(getClass().getSimpleName(), ingredient.getIngredient());
         views.setTextViewText(R.id.detail_ingredient_tv, ingredient.getIngredient());
         views.setTextViewText(R.id.detail_quantity_tv, context.getString(R.string.quantity_text,
                 decimalFormat(ingredient.getQuantity()),
