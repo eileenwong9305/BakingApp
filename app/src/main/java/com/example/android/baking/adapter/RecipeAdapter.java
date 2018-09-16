@@ -3,7 +3,6 @@ package com.example.android.baking.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private Context context;
     private List<Recipe> recipes;
     private ListItemClickListener clickListener;
-
-    public interface ListItemClickListener {
-        void onClick(Recipe recipe);
-    }
 
     public RecipeAdapter(Context context, ListItemClickListener clickListener) {
         this.context = context;
@@ -51,10 +46,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return recipes.size();
     }
 
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+        notifyDataSetChanged();
+    }
+
+    public interface ListItemClickListener {
+        void onClick(Recipe recipe);
+    }
+
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.name_text_view) TextView nameTextView;
-        @BindView(R.id.serving_text_view) TextView servingTextView;
+        @BindView(R.id.name_text_view)
+        TextView nameTextView;
+        @BindView(R.id.serving_text_view)
+        TextView servingTextView;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
@@ -69,13 +75,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         @Override
         public void onClick(View view) {
-            Log.e("RecipeAdapter", recipes.get(getAdapterPosition()).getName());
             clickListener.onClick(recipes.get(getAdapterPosition()));
         }
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-        notifyDataSetChanged();
     }
 }

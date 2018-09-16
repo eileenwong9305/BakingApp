@@ -94,7 +94,7 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getActivity());
         stepsRecyclerView.setLayoutManager(stepLayoutManager);
         stepsRecyclerView.setHasFixedSize(true);
-        final StepAdapter stepAdapter = new StepAdapter(getActivity(), this);
+        final StepAdapter stepAdapter = new StepAdapter(this);
         stepsRecyclerView.setAdapter(stepAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(

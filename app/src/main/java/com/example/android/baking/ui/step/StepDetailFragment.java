@@ -47,6 +47,7 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             videoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
@@ -77,13 +78,17 @@ public class StepDetailFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (!isVisibleToUser) {
-            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl, getContext()).goToBackground();
-        } else {
-            if (videoUrl != null) ExoPlayerViewManager.getInstance(videoUrl, getContext()).goToForeground();
+        if (exoPlayerViewManager != null && !(videoUrl == null || videoUrl.equals(""))) {
+            if (!isVisibleToUser) {
+                exoPlayerViewManager.goToBackground();
+            } else {
+                exoPlayerViewManager.prepareExoPlayer(playerView);
+                exoPlayerViewManager.goToForeground();
+            }
         }
     }
 
@@ -97,7 +102,7 @@ public class StepDetailFragment extends Fragment {
         } else {
             playerView.setVisibility(View.VISIBLE);
             exoPlayerViewManager.prepareExoPlayer(playerView);
-            exoPlayerViewManager.goToForeground();
+            if (getUserVisibleHint()) exoPlayerViewManager.goToForeground();
         }
     }
 
@@ -108,16 +113,9 @@ public class StepDetailFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        exoPlayerViewManager.stopPlayer();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (!getActivity().isChangingConfigurations()) {
-            Log.e(getClass().getSimpleName(), "release videoplayer");
             exoPlayerViewManager.releaseVideoPlayer();
         } else {
             Log.e(getClass().getSimpleName(), "change orientation");

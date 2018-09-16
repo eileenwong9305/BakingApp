@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.baking.R;
-import com.example.android.baking.data.Recipe;
 import com.example.android.baking.data.Step;
 
 import java.util.List;
@@ -17,18 +16,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder>{
+public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
-    private Context context;
     private List<Step> steps;
     private StepItemClickListener listener;
 
-    public interface StepItemClickListener {
-        void onClick(int position);
-    }
-
-    public StepAdapter(Context context, StepItemClickListener listener) {
-        this.context = context;
+    public StepAdapter(StepItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -56,7 +49,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         notifyDataSetChanged();
     }
 
-    public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public interface StepItemClickListener {
+        void onClick(int position);
+    }
+
+    public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.detail_step_num_tv)
         TextView stepNumTextView;
@@ -71,7 +68,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         void bind(int itemIndex) {
             Step step = steps.get(itemIndex);
-            stepNumTextView.setText(String.valueOf(step.getStep()+1));
+            stepNumTextView.setText(String.valueOf(step.getStep() + 1));
             shortDescTextView.setText(step.getShortDescription());
         }
 

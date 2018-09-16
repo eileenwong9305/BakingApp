@@ -1,17 +1,25 @@
 package com.example.android.baking.data;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Step implements Parcelable {
 
+    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
+
+        @Override
+        public Step createFromParcel(Parcel parcel) {
+            return new Step(parcel);
+        }
+
+        @Override
+        public Step[] newArray(int i) {
+            return new Step[i];
+        }
+    };
     @SerializedName("id")
     private int step;
     private String shortDescription;
@@ -54,19 +62,6 @@ public class Step implements Parcelable {
         dest.writeString(description);
         dest.writeString(videoURL);
     }
-
-    static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
-
-        @Override
-        public Step createFromParcel(Parcel parcel) {
-            return new Step(parcel);
-        }
-
-        @Override
-        public Step[] newArray(int i) {
-            return new Step[i];
-        }
-    };
 
     public int getStep() {
         return step;

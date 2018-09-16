@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -36,8 +37,8 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
 
     public static final String KEY_STEPS = "steps";
     public static final String KEY_STEP_NUMBER = "step_number";
-    private int totalSteps;
 
+    private int totalSteps;
     private Recipe mRecipe;
     private SharedPreferences sharedPreferences;
     private boolean isSaved = false;
@@ -46,13 +47,13 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
 
     @Nullable
     @BindView(R.id.step_container)
-    FrameLayout stepContainerLayout;
+    public FrameLayout stepContainerLayout;
     @Nullable
     @BindView(R.id.left_button)
-    ImageView leftButton;
+    public ImageView leftButton;
     @Nullable
     @BindView(R.id.right_button)
-    ImageView rightButton;
+    public ImageView rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,20 +85,24 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
             twoPane = true;
             currentPosition = 0;
             setupButton(currentPosition);
-            leftButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentPosition -= 1;
-                    setupButtonAndFragment(currentPosition);
-                }
-            });
-            rightButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentPosition += 1;
-                    setupButtonAndFragment(currentPosition);
-                }
-            });
+            if (leftButton != null) {
+                leftButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        currentPosition -= 1;
+                        setupButtonAndFragment(currentPosition);
+                    }
+                });
+            }
+            if (rightButton != null) {
+                rightButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        currentPosition += 1;
+                        setupButtonAndFragment(currentPosition);
+                    }
+                });
+            }
 
             if (savedInstanceState == null) {
                 Bundle bundle = new Bundle();
@@ -147,10 +152,12 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
                     sharedPreferences.edit().putInt(getString(R.string.preference_key_save_recipe), -1).apply();
                     isSaved = false;
                     item.setIcon(R.drawable.ic_favorite_border);
+                    Snackbar.make(findViewById(R.id.detail_container), getString(R.string.remove_recipe), Snackbar.LENGTH_SHORT).show();
                 } else {
                     sharedPreferences.edit().putInt(getString(R.string.preference_key_save_recipe), mRecipe.getId()).apply();
                     isSaved = true;
                     item.setIcon(R.drawable.ic_favorite);
+                    Snackbar.make(findViewById(R.id.detail_container), getString(R.string.add_recipe), Snackbar.LENGTH_SHORT).show();
                 }
                 Intent intent = new Intent(this, AppWidget.class);
                 intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -158,7 +165,6 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
                         .getAppWidgetIds(new ComponentName(getApplication(), AppWidget.class));
                 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
                 sendBroadcast(intent);
-//                ShowIngredientService.startActionShowIngredient(getApplicationContext());
                 return true;
             case android.R.id.home:
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -200,15 +206,17 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     }
 
     private void setupButton(int position) {
-        if (position == 0) {
-            leftButton.setVisibility(View.INVISIBLE);
-            rightButton.setVisibility(View.VISIBLE);
-        } else if (position == totalSteps-1) {
-            leftButton.setVisibility(View.VISIBLE);
-            rightButton.setVisibility(View.INVISIBLE);
-        } else {
-            rightButton.setVisibility(View.VISIBLE);
-            leftButton.setVisibility(View.VISIBLE);
+        if (leftButton != null && rightButton != null) {
+            if (position == 0) {
+                leftButton.setVisibility(View.INVISIBLE);
+                rightButton.setVisibility(View.VISIBLE);
+            } else if (position == totalSteps - 1) {
+                leftButton.setVisibility(View.VISIBLE);
+                rightButton.setVisibility(View.INVISIBLE);
+            } else {
+                rightButton.setVisibility(View.VISIBLE);
+                leftButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 

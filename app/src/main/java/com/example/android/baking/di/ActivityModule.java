@@ -1,10 +1,10 @@
 package com.example.android.baking.di;
 
+import com.example.android.baking.ui.detail.DetailActivity;
+import com.example.android.baking.ui.main.MainActivity;
+import com.example.android.baking.ui.step.StepActivity;
 import com.example.android.baking.widget.ListWidgetService;
 import com.example.android.baking.widget.ShowIngredientService;
-import com.example.android.baking.ui.detail.DetailActivity;
-import com.example.android.baking.ui.step.StepActivity;
-import com.example.android.baking.ui.main.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

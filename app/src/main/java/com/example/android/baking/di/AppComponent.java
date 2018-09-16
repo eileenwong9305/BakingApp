@@ -13,7 +13,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ActivityModule.class})
-public interface AppComponent extends AndroidInjector<BakingApplication>{
+public interface AppComponent extends AndroidInjector<BakingApplication> {
 
     @Override
     void inject(BakingApplication bakingApplication);
@@ -22,6 +22,7 @@ public interface AppComponent extends AndroidInjector<BakingApplication>{
     interface Builder {
         @BindsInstance
         AppComponent.Builder application(Application application);
+
         AppComponent build();
     }
 

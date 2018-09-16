@@ -4,9 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
-import com.example.android.baking.data.Ingredient;
 import com.example.android.baking.data.Recipe;
-import com.example.android.baking.data.Step;
 
 import javax.inject.Singleton;
 

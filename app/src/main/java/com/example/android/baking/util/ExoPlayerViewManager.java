@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -73,7 +74,7 @@ public class ExoPlayerViewManager {
     }
 
     public void prepareExoPlayer(PlayerView exoPlayerView) {
-        if (context == null || exoPlayerView == null) {
+        if (context == null || exoPlayerView == null || videoUri == null) {
             return;
         }
         if (player == null) {
@@ -154,29 +155,35 @@ public class ExoPlayerViewManager {
     }
 
     public void goToBackground() {
-        if (!mAudioIsPlaying) {
+        if (mAudioIsPlaying) {
             if (player != null) {
                 if (mAudioFocusGranted) {
                     player.setPlayWhenReady(false);
                     mAudioIsPlaying = false;
-                }
-            }
-        }
+                    Log.e(getClass().getSimpleName(), "pause" + player);
+                } else Log.e(getClass().getSimpleName(), "not pause: AudioFocusNotGranted"  + player);
+            } else Log.e(getClass().getSimpleName(), "not pause: player is null"  + player);
+        } else Log.e(getClass().getSimpleName(), "not pause: audio not playing"  + player);
     }
 
     public void goToForeground() {
         if (!mAudioIsPlaying) {
             if (player != null) {
-                if (!mAudioFocusGranted && requestAudioFocus()) {
+                if (mAudioFocusGranted || requestAudioFocus()) {
+                    Log.e(getClass().getSimpleName(), "player state: " + player.getPlaybackState());
+                    if (player.getPlaybackState() == Player.STATE_ENDED) {
+                        player.seekTo(0);
+                    }
                     player.setPlayWhenReady(true);
                     mAudioIsPlaying = true;
-                }
-            }
-        }
+                    Log.e(getClass().getSimpleName(), "play" + player);
+                } else Log.e(getClass().getSimpleName(), "not play: AudioFocusNotGranted"  + player);
+            } else Log.e(getClass().getSimpleName(), "not play: player is null"  + player );
+        } else Log.e(getClass().getSimpleName(), "not play: audio is playing" + player);
     }
 
     public void stopPlayer() {
-        if (!mAudioIsPlaying) {
+        if (mAudioIsPlaying) {
             if (player != null) {
                 if (mAudioFocusGranted) {
                     player.stop();

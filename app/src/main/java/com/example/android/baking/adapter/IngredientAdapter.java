@@ -13,12 +13,12 @@ import com.example.android.baking.R;
 import com.example.android.baking.data.Ingredient;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Binds;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>{
+public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
     private List<Ingredient> ingredients;
     private Context context;
@@ -52,6 +52,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         notifyDataSetChanged();
     }
 
+    private String decimalFormat(float f) {
+        if (f == (long) f) {
+            return String.format(Locale.US, "%d", (long) f);
+        } else {
+            return String.format("%s", f);
+        }
+    }
+
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.detail_ingredient_tv)
@@ -70,14 +78,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
             quantityTextView.setText(context.getString(R.string.quantity_text,
                     decimalFormat(ingredient.getQuantity()),
                     ingredient.getMeasure()));
-        }
-    }
-
-    private String decimalFormat(float f) {
-        if (f == (long) f) {
-            return String.format("%d", (long) f);
-        } else {
-            return String.format("%s", f);
         }
     }
 }

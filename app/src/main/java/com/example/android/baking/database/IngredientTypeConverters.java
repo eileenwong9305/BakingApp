@@ -18,7 +18,8 @@ public class IngredientTypeConverters {
             return Collections.emptyList();
         }
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Ingredient>>() {}.getType();
+        Type listType = new TypeToken<List<Ingredient>>() {
+        }.getType();
         return gson.fromJson(data, listType);
     }
 

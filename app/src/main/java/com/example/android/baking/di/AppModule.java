@@ -3,12 +3,12 @@ package com.example.android.baking.di;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.example.android.baking.util.ApiService;
-import com.example.android.baking.util.AppExecutors;
-import com.example.android.baking.util.AppRepository;
 import com.example.android.baking.database.AppDatabase;
 import com.example.android.baking.database.RecipeDao;
 import com.example.android.baking.ui.main.MainViewModelFactory;
+import com.example.android.baking.util.ApiService;
+import com.example.android.baking.util.AppExecutors;
+import com.example.android.baking.util.AppRepository;
 import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
