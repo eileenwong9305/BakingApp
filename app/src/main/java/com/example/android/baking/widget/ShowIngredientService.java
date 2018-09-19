@@ -50,6 +50,6 @@ public class ShowIngredientService extends DaggerIntentService {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ShowIngredientService.this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(ShowIngredientService.this, AppWidget.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredient_lv);
-        AppWidget.updateRecipeWidgets(ShowIngredientService.this, appWidgetManager, appWidgetIds, recipe);
+//        AppWidget.updateRecipeWidgets(ShowIngredientService.this, appWidgetManager, appWidgetIds, recipe);
     }
 }

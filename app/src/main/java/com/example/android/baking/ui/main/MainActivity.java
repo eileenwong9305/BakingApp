@@ -11,6 +11,9 @@ import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.adapter.RecipeAdapter;
@@ -32,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     public static final String KEY_RECIPE = "recipe";
     @BindView(R.id.rv)
     public RecyclerView recyclerView;
+    @BindView(R.id.progress_bar)
+    public ProgressBar progressBar;
+    @BindView(R.id.error_message)
+    public TextView errorMessage;
+
     @Inject
     MainViewModelFactory viewModelFactory;
     MainViewModel viewModel;
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        showLoading();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -81,9 +90,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             public void onChanged(@Nullable List<Recipe> recipes) {
                 if (recipes != null && recipes.size() != 0) {
                     adapter.setRecipes(recipes);
+                    showContent();
                     if (idlingResource != null) {
                         idlingResource.setIdleState(true);
                     }
+                } else {
+//                    showError();
                 }
 
             }
@@ -95,5 +107,23 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         intent.putExtra(KEY_RECIPE, recipe);
         startActivity(intent);
+    }
+
+    private void showLoading(){
+        progressBar.setVisibility(View.VISIBLE);
+        errorMessage.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showError() {
+        progressBar.setVisibility(View.INVISIBLE);
+        errorMessage.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    private void showContent() {
+        progressBar.setVisibility(View.INVISIBLE);
+        errorMessage.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

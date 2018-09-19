@@ -3,8 +3,10 @@ package com.example.android.baking.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -21,11 +23,11 @@ public class AppWidget extends AppWidgetProvider {
     public static final String EXTRA_INGREDIENTS = "com.example.android.baking.extra.ingredients";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, Recipe recipe) {
+                                int appWidgetId, int recipeId, String recipeName) {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-        if (recipe == null) {
+        if (recipeId == -1) {
             views.setViewVisibility(R.id.empty_tv, View.VISIBLE);
             views.setViewVisibility(R.id.show_ingredient, View.GONE);
             Intent intent = new Intent(context, MainActivity.class);
@@ -34,7 +36,7 @@ public class AppWidget extends AppWidgetProvider {
         } else {
             views.setViewVisibility(R.id.empty_tv, View.GONE);
             views.setViewVisibility(R.id.show_ingredient, View.VISIBLE);
-            views.setTextViewText(R.id.recipe_name_tv, recipe.getName());
+            views.setTextViewText(R.id.recipe_name_tv, recipeName);
 
             Intent intent = new Intent(context, ListWidgetService.class);
             views.setRemoteAdapter(R.id.ingredient_lv, intent);
@@ -49,15 +51,21 @@ public class AppWidget extends AppWidgetProvider {
     }
 
     public static void updateRecipeWidgets(Context context, AppWidgetManager appWidgetManager,
-                                           int[] appWidgetIds, Recipe recipe) {
+                                           int[] appWidgetIds, int recipeId, String recipeName) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, recipe);
+            updateAppWidget(context, appWidgetManager, appWidgetId, recipeId, recipeName);
         }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        ShowIngredientService.startActionShowIngredient(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.preference_key_file),
+                Context.MODE_PRIVATE);
+        int savedRecipeId = sharedPreferences.getInt(context.getString(R.string.preference_key_save_recipe), -1);
+        String savedRecipeName = sharedPreferences.getString(context.getString(R.string.preference_key_save_recipe_name), "");
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredient_lv);
+        AppWidget.updateRecipeWidgets(context, appWidgetManager, appWidgetIds, savedRecipeId, savedRecipeName);
     }
 
     @Override

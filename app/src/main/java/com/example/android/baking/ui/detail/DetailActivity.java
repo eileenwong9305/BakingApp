@@ -148,11 +148,13 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
             case R.id.action_save:
                 if (isSaved) {
                     sharedPreferences.edit().putInt(getString(R.string.preference_key_save_recipe), -1).apply();
+                    sharedPreferences.edit().putString(getString(R.string.preference_key_save_recipe_name), "").apply();
                     isSaved = false;
                     item.setIcon(R.drawable.ic_favorite_border);
                     Snackbar.make(findViewById(R.id.detail_container), getString(R.string.remove_recipe), Snackbar.LENGTH_SHORT).show();
                 } else {
                     sharedPreferences.edit().putInt(getString(R.string.preference_key_save_recipe), mRecipe.getId()).apply();
+                    sharedPreferences.edit().putString(getString(R.string.preference_key_save_recipe_name), mRecipe.getName()).apply();
                     isSaved = true;
                     item.setIcon(R.drawable.ic_favorite);
                     Snackbar.make(findViewById(R.id.detail_container), getString(R.string.add_recipe), Snackbar.LENGTH_SHORT).show();

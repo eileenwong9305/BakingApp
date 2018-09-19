@@ -19,4 +19,5 @@
 
     <string name="preference_key_file" translatable="false">com.example.android.baking.preference.key.file</string>
     <string name="preference_key_save_recipe" translatable="false">com.example.android.baking.key.save.recipe</string>
+    <string name="preference_key_save_recipe_name" translatable="false">com.example.android.baking.key.save.recipe.name</string>
 </resources>
