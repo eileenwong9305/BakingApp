@@ -20,7 +20,7 @@ public class ShowIngredientService extends DaggerIntentService {
     public static final String ACTION_SHOW_INGREDIENTS = "com.example.android.baking.action.show.ingredient";
 
     @Inject
-    AppRepository appRepository;
+    AppRepository mAppRepository;
 
     public ShowIngredientService() {
         super("ShowIngredientService");
@@ -46,10 +46,10 @@ public class ShowIngredientService extends DaggerIntentService {
                 getString(R.string.preference_key_file),
                 Context.MODE_PRIVATE);
         int savedRecipeId = sharedPreferences.getInt(getString(R.string.preference_key_save_recipe), -1);
-        Recipe recipe = appRepository.getRecipe(savedRecipeId);
+        Recipe recipe = mAppRepository.getRecipe(savedRecipeId);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ShowIngredientService.this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(ShowIngredientService.this, AppWidget.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredient_lv);
-//        AppWidget.updateRecipeWidgets(ShowIngredientService.this, appWidgetManager, appWidgetIds, recipe);
+//        AppWidget.updateRecipeWidgets(ShowIngredientService.this, appWidgetManager, appWidgetIds, mRecipe);
     }
 }

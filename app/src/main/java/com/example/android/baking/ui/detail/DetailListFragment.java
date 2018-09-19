@@ -18,6 +18,8 @@ import com.example.android.baking.adapter.IngredientAdapter;
 import com.example.android.baking.adapter.StepAdapter;
 import com.example.android.baking.data.Recipe;
 
+import org.parceler.Parcels;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,15 +28,15 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     private static final String ARG_KEY_RECIPE = "arg_recipe";
     private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
     @BindView(R.id.ingredients_rv)
-    public RecyclerView ingredientsRecyclerView;
+    public RecyclerView mIngredientsRecyclerView;
     @BindView(R.id.detail_name_tv)
-    public TextView nameTextView;
+    public TextView mNameTextView;
     @BindView(R.id.detail_servings_tv)
-    public TextView servingsTextView;
+    public TextView mServingsTextView;
     @BindView(R.id.steps_rv)
-    public RecyclerView stepsRecyclerView;
+    public RecyclerView mStepsRecyclerView;
     private Recipe mRecipe;
-    private OnStepClickListener stepClickListener;
+    private OnStepClickListener mStepClickListener;
 
     public DetailListFragment() {
     }
@@ -42,7 +44,7 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     public static DetailListFragment newInstance(Recipe recipe) {
         DetailListFragment detailListFragment = new DetailListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ARG_KEY_RECIPE, recipe);
+        bundle.putParcelable(ARG_KEY_RECIPE, Parcels.wrap(recipe));
         detailListFragment.setArguments(bundle);
         return detailListFragment;
     }
@@ -51,7 +53,7 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            stepClickListener = (OnStepClickListener) context;
+            mStepClickListener = (OnStepClickListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement OnStepClickListener");
         }
@@ -75,23 +77,23 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
         ButterKnife.bind(this, rootView);
 
         LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getActivity());
-        ingredientsRecyclerView.setLayoutManager(ingredientLayoutManager);
-        ingredientsRecyclerView.setHasFixedSize(true);
+        mIngredientsRecyclerView.setLayoutManager(ingredientLayoutManager);
+        mIngredientsRecyclerView.setHasFixedSize(true);
         final IngredientAdapter ingredientAdapter = new IngredientAdapter(getActivity());
-        ingredientsRecyclerView.setAdapter(ingredientAdapter);
+        mIngredientsRecyclerView.setAdapter(ingredientAdapter);
 
         LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getActivity());
-        stepsRecyclerView.setLayoutManager(stepLayoutManager);
-        stepsRecyclerView.setHasFixedSize(true);
+        mStepsRecyclerView.setLayoutManager(stepLayoutManager);
+        mStepsRecyclerView.setHasFixedSize(true);
         final StepAdapter stepAdapter = new StepAdapter(this);
-        stepsRecyclerView.setAdapter(stepAdapter);
+        mStepsRecyclerView.setAdapter(stepAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                ingredientsRecyclerView.getContext(), ingredientLayoutManager.getOrientation());
-        ingredientsRecyclerView.addItemDecoration(dividerItemDecoration);
+                mIngredientsRecyclerView.getContext(), ingredientLayoutManager.getOrientation());
+        mIngredientsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        nameTextView.setText(mRecipe.getName());
-        servingsTextView.setText(getString(R.string.serving_text, mRecipe.getServings()));
+        mNameTextView.setText(mRecipe.getName());
+        mServingsTextView.setText(getString(R.string.serving_text, mRecipe.getServings()));
         ingredientAdapter.setIngredients(mRecipe.getIngredients());
         stepAdapter.setSteps(mRecipe.getSteps());
 
@@ -101,20 +103,20 @@ public class DetailListFragment extends Fragment implements StepAdapter.StepItem
     private Recipe getRecipe() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            return bundle.getParcelable(ARG_KEY_RECIPE);
+            return Parcels.unwrap(bundle.getParcelable(ARG_KEY_RECIPE));
         }
         return null;
     }
 
     @Override
     public void onClick(int position) {
-        stepClickListener.onStepSelected(position);
+        mStepClickListener.onStepSelected(position);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(BUNDLE_KEY_RECIPE, mRecipe);
+        outState.putParcelable(BUNDLE_KEY_RECIPE, Parcels.wrap(mRecipe));
     }
 
     public interface OnStepClickListener {

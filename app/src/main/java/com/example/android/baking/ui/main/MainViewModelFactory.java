@@ -10,16 +10,16 @@ import javax.inject.Inject;
 
 public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private AppRepository repository;
+    private AppRepository mRepository;
 
     @Inject
     public MainViewModelFactory(AppRepository repository) {
-        this.repository = repository;
+        this.mRepository = repository;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new MainViewModel(repository);
+        return (T) new MainViewModel(mRepository);
     }
 }

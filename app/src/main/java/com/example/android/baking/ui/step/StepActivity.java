@@ -10,6 +10,8 @@ import com.example.android.baking.data.Step;
 import com.example.android.baking.ui.detail.DetailActivity;
 import com.rd.PageIndicatorView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,12 +20,12 @@ import butterknife.ButterKnife;
 public class StepActivity extends AppCompatActivity {
 
     @BindView(R.id.pager)
-    public ViewPager viewPager;
+    public ViewPager mViewPager;
     @BindView(R.id.page_indicator_view)
-    public PageIndicatorView pageIndicatorView;
-    StepCollectionPagerAdapter stepCollectionPagerAdapter;
-    private int stepNumber;
-    private List<Step> steps;
+    public PageIndicatorView mPageIndicatorView;
+    StepCollectionPagerAdapter mStepCollectionPagerAdapter;
+    private int mStepNumber;
+    private List<Step> mSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +37,16 @@ public class StepActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(DetailActivity.KEY_STEP_NUMBER)) {
-                stepNumber = intent.getIntExtra(DetailActivity.KEY_STEP_NUMBER, 0);
+                mStepNumber = intent.getIntExtra(DetailActivity.KEY_STEP_NUMBER, 0);
             }
             if (intent.hasExtra(DetailActivity.KEY_STEPS)) {
-                steps = intent.getParcelableArrayListExtra(DetailActivity.KEY_STEPS);
+                mSteps = Parcels.unwrap(intent.getParcelableExtra(DetailActivity.KEY_STEPS));
             }
         }
 
-        stepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager(), steps);
-        viewPager.setAdapter(stepCollectionPagerAdapter);
-        viewPager.setCurrentItem(stepNumber);
+        mStepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager(), mSteps);
+        mViewPager.setAdapter(mStepCollectionPagerAdapter);
+        mViewPager.setCurrentItem(mStepNumber);
 
     }
 }

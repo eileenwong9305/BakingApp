@@ -38,7 +38,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.8.4'
     implementation 'com.romandanylyk:pageindicatorview:1.0.1@aar'
     implementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
-
+    implementation 'org.parceler:parceler-api:1.1.11'
+    annotationProcessor 'org.parceler:parceler:1.1.11'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'

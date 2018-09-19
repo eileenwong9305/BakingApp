@@ -1,6 +1,7 @@
 package com.example.android.baking.data;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
@@ -12,30 +13,23 @@ import com.example.android.baking.database.StepTypeConverters;
 
 import java.util.List;
 
+@org.parceler.Parcel
 @Entity
-public class Recipe implements Parcelable {
+public class Recipe {
 
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
     @PrimaryKey
     @NonNull
-    private int id;
-    private String name;
+    int id;
+    String name;
     @TypeConverters(IngredientTypeConverters.class)
-    private List<Ingredient> ingredients = null;
+    List<Ingredient> ingredients = null;
     @TypeConverters(StepTypeConverters.class)
-    private List<Step> steps = null;
-    private int servings;
-    private String image;
+    List<Step> steps = null;
+    int servings;
+    String image;
+
+    @Ignore
+    public Recipe() {}
 
     public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings,
                   String image) {
@@ -45,15 +39,6 @@ public class Recipe implements Parcelable {
         this.steps = steps;
         this.servings = servings;
         this.image = image;
-    }
-
-    protected Recipe(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
-        steps = in.createTypedArrayList(Step.CREATOR);
-        servings = in.readInt();
-        image = in.readString();
     }
 
     public int getId() {
@@ -104,18 +89,4 @@ public class Recipe implements Parcelable {
         this.image = image;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeTypedList(ingredients);
-        parcel.writeTypedList(steps);
-        parcel.writeInt(servings);
-        parcel.writeString(image);
-    }
 }

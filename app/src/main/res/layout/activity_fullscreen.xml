@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".ui.full.FullscreenActivity">
+    tools:mContext=".ui.full.FullscreenActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/full_player_view"

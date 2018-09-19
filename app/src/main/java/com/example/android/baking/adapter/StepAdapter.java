@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
-    private List<Step> steps;
-    private StepItemClickListener listener;
+    private List<Step> mSteps;
+    private StepItemClickListener mClickListener;
 
     public StepAdapter(StepItemClickListener listener) {
-        this.listener = listener;
+        this.mClickListener = listener;
     }
 
     @NonNull
@@ -40,12 +40,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public int getItemCount() {
-        if (steps == null) return 0;
-        return steps.size();
+        if (mSteps == null) return 0;
+        return mSteps.size();
     }
 
     public void setSteps(List<Step> steps) {
-        this.steps = steps;
+        this.mSteps = steps;
         notifyDataSetChanged();
     }
 
@@ -67,14 +67,14 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         }
 
         void bind(int itemIndex) {
-            Step step = steps.get(itemIndex);
+            Step step = mSteps.get(itemIndex);
             stepNumTextView.setText(String.valueOf(step.getStep() + 1));
             shortDescTextView.setText(step.getShortDescription());
         }
 
         @Override
         public void onClick(View view) {
-            listener.onClick(getAdapterPosition());
+            mClickListener.onClick(getAdapterPosition());
         }
     }
 }

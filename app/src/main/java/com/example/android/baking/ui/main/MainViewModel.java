@@ -12,14 +12,14 @@ import javax.inject.Inject;
 
 public class MainViewModel extends ViewModel {
 
-    private LiveData<List<Recipe>> recipes;
+    private LiveData<List<Recipe>> mRecipes;
 
     @Inject
     public MainViewModel(AppRepository repository) {
-        recipes = repository.getRecipeList();
+        mRecipes = repository.getRecipeList();
     }
 
     public LiveData<List<Recipe>> getRecipes() {
-        return recipes;
+        return mRecipes;
     }
 }

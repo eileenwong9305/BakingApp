@@ -4,28 +4,21 @@ import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
 import com.google.gson.annotations.SerializedName;
 
-public class Step implements Parcelable {
+@org.parceler.Parcel
+public class Step{
 
-    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
-
-        @Override
-        public Step createFromParcel(Parcel parcel) {
-            return new Step(parcel);
-        }
-
-        @Override
-        public Step[] newArray(int i) {
-            return new Step[i];
-        }
-    };
     @SerializedName("id")
-    private int step;
-    private String shortDescription;
-    private String description;
-    private String videoURL;
-    private String thumbnailURL;
+    int step;
+    String shortDescription;
+    String description;
+    String videoURL;
+    String thumbnailURL;
+
+    @Ignore
+    public Step() {}
 
     public Step(int step, String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.step = step;
@@ -41,26 +34,6 @@ public class Step implements Parcelable {
         this.description = description;
         this.videoURL = videoURL;
         this.thumbnailURL = thumbnailURL;
-    }
-
-    @Ignore
-    public Step(Parcel in) {
-        this.step = in.readInt();
-        this.shortDescription = in.readString();
-        this.description = in.readString();
-        this.videoURL = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public void writeToParcel(Parcel dest, int flag) {
-        dest.writeInt(step);
-        dest.writeString(shortDescription);
-        dest.writeString(description);
-        dest.writeString(videoURL);
     }
 
     public int getStep() {

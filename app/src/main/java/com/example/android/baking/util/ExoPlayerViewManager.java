@@ -29,20 +29,20 @@ import java.util.Map;
 
 public class ExoPlayerViewManager {
 
-    private static Map<String, ExoPlayerViewManager> instances = new HashMap<>();
-    private Uri videoUri;
-    private Context context;
+    private static Map<String, ExoPlayerViewManager> sInstances = new HashMap<>();
+    private Uri mVideoUri;
+    private Context mContext;
 
-    private AudioManager audioManager;
-    private AudioFocusRequest focusRequest;
-    private AudioManager.OnAudioFocusChangeListener focusChangeListener;
-    private SimpleExoPlayer player;
+    private AudioManager mAudioManager;
+    private AudioFocusRequest mFocusRequest;
+    private AudioManager.OnAudioFocusChangeListener mFocusChangeListener;
+    private SimpleExoPlayer mPlayer;
     private boolean mAudioFocusGranted = false;
     private boolean mAudioIsPlaying = false;
     private ExoPlayerViewManager(String videoUri, Context context) {
-        this.videoUri = Uri.parse(videoUri);
-        this.context = context;
-        focusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        this.mVideoUri = Uri.parse(videoUri);
+        this.mContext = context;
+        mFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
             public void onAudioFocusChange(int focusChange) {
                 switch (focusChange) {
@@ -62,62 +62,62 @@ public class ExoPlayerViewManager {
     }
 
     public static ExoPlayerViewManager getInstance(String videoUri, Context context) {
-        ExoPlayerViewManager instance = instances.get(videoUri);
+        ExoPlayerViewManager instance = sInstances.get(videoUri);
         if (instance == null) {
             instance = new ExoPlayerViewManager(videoUri, context);
-            instances.put(videoUri, instance);
+            sInstances.put(videoUri, instance);
         }
         return instance;
     }
 
     public void prepareExoPlayer(PlayerView exoPlayerView) {
-        if (context == null || exoPlayerView == null || videoUri == null) {
+        if (mContext == null || exoPlayerView == null || mVideoUri == null) {
             return;
         }
-        if (player == null) {
+        if (mPlayer == null) {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveTrackSelection.Factory(bandwidthMeter);
             TrackSelector trackSelector =
                     new DefaultTrackSelector(videoTrackSelectionFactory);
 
-            player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+            mPlayer = ExoPlayerFactory.newSimpleInstance(mContext, trackSelector);
 
             DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
 
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
-                    context,
-                    Util.getUserAgent(context, "BakingApp"),
+                    mContext,
+                    Util.getUserAgent(mContext, "BakingApp"),
                     defaultBandwidthMeter);
 
             MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(videoUri);
+                    .createMediaSource(mVideoUri);
 
-            player.prepare(videoSource);
+            mPlayer.prepare(videoSource);
         }
-        player.clearVideoSurface();
-        player.setVideoSurfaceView((SurfaceView) exoPlayerView.getVideoSurfaceView());
-        player.seekTo(player.getCurrentPosition() + 1);
-        exoPlayerView.setPlayer(player);
+        mPlayer.clearVideoSurface();
+        mPlayer.setVideoSurfaceView((SurfaceView) exoPlayerView.getVideoSurfaceView());
+        mPlayer.seekTo(mPlayer.getCurrentPosition() + 1);
+        exoPlayerView.setPlayer(mPlayer);
     }
 
     private boolean requestAudioFocus() {
         if (!mAudioFocusGranted) {
-            audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
             int result;
-            if (audioManager != null) {
+            if (mAudioManager != null) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
                     AudioAttributes playbackAttributes = new AudioAttributes.Builder()
                             .setUsage(AudioAttributes.USAGE_MEDIA)
                             .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
                             .build();
-                    focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                             .setAudioAttributes(playbackAttributes)
-                            .setOnAudioFocusChangeListener(focusChangeListener)
+                            .setOnAudioFocusChangeListener(mFocusChangeListener)
                             .build();
-                    result = audioManager.requestAudioFocus(focusRequest);
+                    result = mAudioManager.requestAudioFocus(mFocusRequest);
                 } else {
-                    result = audioManager.requestAudioFocus(focusChangeListener,
+                    result = mAudioManager.requestAudioFocus(mFocusChangeListener,
                             AudioManager.STREAM_MUSIC,
                             AudioManager.AUDIOFOCUS_GAIN);
                 }
@@ -134,36 +134,36 @@ public class ExoPlayerViewManager {
     }
 
     public void releaseVideoPlayer() {
-        if (player != null) {
-            player.stop();
-            player.release();
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
             mAudioIsPlaying = false;
         }
-        if (mAudioFocusGranted && audioManager != null) {
+        if (mAudioFocusGranted && mAudioManager != null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-                audioManager.abandonAudioFocusRequest(focusRequest);
+                mAudioManager.abandonAudioFocusRequest(mFocusRequest);
             } else {
-                audioManager.abandonAudioFocus(focusChangeListener);
+                mAudioManager.abandonAudioFocus(mFocusChangeListener);
             }
             mAudioFocusGranted = false;
         }
-        player = null;
+        mPlayer = null;
     }
 
     public void goToBackground() {
-        if (mAudioIsPlaying && player != null && mAudioFocusGranted) {
-            player.setPlayWhenReady(false);
+        if (mAudioIsPlaying && mPlayer != null && mAudioFocusGranted) {
+            mPlayer.setPlayWhenReady(false);
             mAudioIsPlaying = false;
         }
     }
 
     public void goToForeground() {
-        if (!mAudioIsPlaying && player != null) {
+        if (!mAudioIsPlaying && mPlayer != null) {
             if (mAudioFocusGranted || requestAudioFocus()) {
-                if (player.getPlaybackState() == Player.STATE_ENDED) {
-                    player.seekTo(0);
+                if (mPlayer.getPlaybackState() == Player.STATE_ENDED) {
+                    mPlayer.seekTo(0);
                 }
-                player.setPlayWhenReady(true);
+                mPlayer.setPlayWhenReady(true);
                 mAudioIsPlaying = true;
             }
         }

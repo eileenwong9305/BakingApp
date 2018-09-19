@@ -66,7 +66,7 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     };
     @BindView(R.id.full_player_view)
-    PlayerView playerView;
+    PlayerView mPlayerView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -76,7 +76,7 @@ public class FullscreenActivity extends AppCompatActivity {
             // Note that some of these constants are new as of API 16 (Jelly Bean)
             // and API 19 (KitKat). It is safe to use them, as they are inlined
             // at compile-time and do nothing on earlier devices.
-            playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+            mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -85,13 +85,12 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     };
     @BindView(R.id.exo_fullscreen_icon)
-    ImageView fullScreenImageView;
+    public ImageView mFullScreenImageView;
     @BindView(R.id.exo_fullscreen_button)
-    FrameLayout fullScreenLayout;
-    private String videoUrl;
-    private ExoPlayerViewManager exoPlayerViewManager;
-    private boolean destroyVideo = true;
-    private View mContentView;
+    public FrameLayout mFullScreenLayout;
+    private String mVideoUrl;
+    private ExoPlayerViewManager mExoPlayerViewManager;
+    private boolean mDestroyVideo = true;
     private boolean mVisible;
     private final Runnable mHideRunnable = new Runnable() {
         @Override
@@ -108,27 +107,27 @@ public class FullscreenActivity extends AppCompatActivity {
 
         mVisible = true;
 
-        playerView.setOnClickListener(new View.OnClickListener() {
+        mPlayerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggle();
             }
         });
 
-        fullScreenImageView.setImageResource(R.drawable.exo_controls_fullscreen_exit);
+        mFullScreenImageView.setImageResource(R.drawable.exo_controls_fullscreen_exit);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN)) {
-            videoUrl = intent.getStringExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN);
+            mVideoUrl = intent.getStringExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN);
         }
-        exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, this);
-        exoPlayerViewManager.prepareExoPlayer(playerView);
-        exoPlayerViewManager.goToForeground();
+        mExoPlayerViewManager = ExoPlayerViewManager.getInstance(mVideoUrl, this);
+        mExoPlayerViewManager.prepareExoPlayer(mPlayerView);
+        mExoPlayerViewManager.goToForeground();
 
-        fullScreenLayout.setOnClickListener(new View.OnClickListener() {
+        mFullScreenLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                destroyVideo = false;
+                mDestroyVideo = false;
                 finish();
             }
         });
@@ -136,22 +135,22 @@ public class FullscreenActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        destroyVideo = false;
+        mDestroyVideo = false;
         super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (destroyVideo) {
-            exoPlayerViewManager.releaseVideoPlayer();
+        if (mDestroyVideo) {
+            mExoPlayerViewManager.releaseVideoPlayer();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        exoPlayerViewManager.goToBackground();
+        mExoPlayerViewManager.goToBackground();
     }
 
     @Override
@@ -188,7 +187,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
-        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
 

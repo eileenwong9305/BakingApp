@@ -19,11 +19,11 @@ import butterknife.ButterKnife;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
-    private List<Ingredient> ingredients;
-    private Context context;
+    private List<Ingredient> mIngredients;
+    private Context mContext;
 
     public IngredientAdapter(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     @NonNull
@@ -41,12 +41,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     @Override
     public int getItemCount() {
-        if (ingredients == null) return 0;
-        return ingredients.size();
+        if (mIngredients == null) return 0;
+        return mIngredients.size();
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+        this.mIngredients = ingredients;
         notifyDataSetChanged();
     }
 
@@ -71,9 +71,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         }
 
         void bind(int listIndex) {
-            Ingredient ingredient = ingredients.get(listIndex);
+            Ingredient ingredient = mIngredients.get(listIndex);
             ingredientTextView.setText(ingredient.getIngredient());
-            quantityTextView.setText(context.getString(R.string.quantity_text,
+            quantityTextView.setText(mContext.getString(R.string.quantity_text,
                     decimalFormat(ingredient.getQuantity()),
                     ingredient.getMeasure()));
         }

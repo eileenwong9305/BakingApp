@@ -18,13 +18,13 @@ import butterknife.ButterKnife;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    private Context context;
-    private List<Recipe> recipes;
-    private ListItemClickListener clickListener;
+    private Context mContext;
+    private List<Recipe> mRecipes;
+    private ListItemClickListener mClickListener;
 
     public RecipeAdapter(Context context, ListItemClickListener clickListener) {
-        this.context = context;
-        this.clickListener = clickListener;
+        this.mContext = context;
+        this.mClickListener = clickListener;
     }
 
     @NonNull
@@ -42,12 +42,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public int getItemCount() {
-        if (recipes == null) return 0;
-        return recipes.size();
+        if (mRecipes == null) return 0;
+        return mRecipes.size();
     }
 
     public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+        this.mRecipes = recipes;
         notifyDataSetChanged();
     }
 
@@ -69,13 +69,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         void bind(int listIndex) {
-            nameTextView.setText(recipes.get(listIndex).getName());
-            servingTextView.setText(context.getString(R.string.serving_text, recipes.get(listIndex).getServings()));
+            nameTextView.setText(mRecipes.get(listIndex).getName());
+            servingTextView.setText(mContext.getString(R.string.serving_text, mRecipes.get(listIndex).getServings()));
         }
 
         @Override
         public void onClick(View view) {
-            clickListener.onClick(recipes.get(getAdapterPosition()));
+            mClickListener.onClick(mRecipes.get(getAdapterPosition()));
         }
     }
 }

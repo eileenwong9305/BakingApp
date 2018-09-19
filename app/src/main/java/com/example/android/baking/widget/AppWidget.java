@@ -20,7 +20,7 @@ import com.example.android.baking.ui.main.MainActivity;
  */
 public class AppWidget extends AppWidgetProvider {
 
-    public static final String EXTRA_INGREDIENTS = "com.example.android.baking.extra.ingredients";
+    public static final String EXTRA_INGREDIENTS = "com.example.android.baking.extra.mIngredients";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, int recipeId, String recipeName) {

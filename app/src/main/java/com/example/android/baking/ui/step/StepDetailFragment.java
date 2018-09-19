@@ -27,19 +27,18 @@ public class StepDetailFragment extends Fragment {
     public static final String KEY_VIDEO_URL_FULLSCREEN = "video_url_fullscreen";
 
     @BindView(R.id.player_view)
-    public PlayerView playerView;
+    public PlayerView mPlayerView;
     @BindView(R.id.detail_desc_tv)
-    public TextView descTextView;
+    public TextView mDescTextView;
     @BindView(R.id.exo_fullscreen_button)
-    public FrameLayout fullscreenLayout;
+    public FrameLayout mFullscreenLayout;
     @BindView(R.id.exo_fullscreen_icon)
-    public ImageView fullscreenIcon;
-    public ExoPlayerViewManager exoPlayerViewManager;
-    private String videoUrl;
-    private String description;
+    public ImageView mFullscreenIcon;
+    public ExoPlayerViewManager mExoPlayerViewManager;
+    private String mVideoUrl;
+    private String mDescription;
 
     public StepDetailFragment() {
-
     }
 
     @Override
@@ -48,10 +47,10 @@ public class StepDetailFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            videoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
-            description = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC);
+            mVideoUrl = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_VIDEO_URL);
+            mDescription = bundle.getString(StepCollectionPagerAdapter.BUNDLE_KEY_DESC);
         }
-        exoPlayerViewManager = ExoPlayerViewManager.getInstance(videoUrl, getContext());
+        mExoPlayerViewManager = ExoPlayerViewManager.getInstance(mVideoUrl, getContext());
     }
 
     @Nullable
@@ -59,12 +58,12 @@ public class StepDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
         ButterKnife.bind(this, rootView);
-        descTextView.setText(description);
-        fullscreenLayout.setOnClickListener(new View.OnClickListener() {
+        mDescTextView.setText(mDescription);
+        mFullscreenLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), FullscreenActivity.class);
-                intent.putExtra(KEY_VIDEO_URL_FULLSCREEN, videoUrl);
+                intent.putExtra(KEY_VIDEO_URL_FULLSCREEN, mVideoUrl);
                 startActivity(intent);
             }
         });
@@ -80,12 +79,12 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (exoPlayerViewManager != null && !(videoUrl == null || videoUrl.equals(""))) {
+        if (mExoPlayerViewManager != null && !(mVideoUrl == null || mVideoUrl.equals(""))) {
             if (!isVisibleToUser) {
-                exoPlayerViewManager.goToBackground();
+                mExoPlayerViewManager.goToBackground();
             } else {
-                exoPlayerViewManager.prepareExoPlayer(playerView);
-                exoPlayerViewManager.goToForeground();
+                mExoPlayerViewManager.prepareExoPlayer(mPlayerView);
+                mExoPlayerViewManager.goToForeground();
             }
         }
     }
@@ -93,28 +92,28 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (videoUrl == null || videoUrl.equals("")) {
-            playerView.setVisibility(View.GONE);
-            descTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f);
-            descTextView.setGravity(Gravity.CENTER_VERTICAL);
+        if (mVideoUrl == null || mVideoUrl.equals("")) {
+            mPlayerView.setVisibility(View.GONE);
+            mDescTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f);
+            mDescTextView.setGravity(Gravity.CENTER_VERTICAL);
         } else {
-            playerView.setVisibility(View.VISIBLE);
-            exoPlayerViewManager.prepareExoPlayer(playerView);
-            if (getUserVisibleHint()) exoPlayerViewManager.goToForeground();
+            mPlayerView.setVisibility(View.VISIBLE);
+            mExoPlayerViewManager.prepareExoPlayer(mPlayerView);
+            if (getUserVisibleHint()) mExoPlayerViewManager.goToForeground();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        exoPlayerViewManager.goToBackground();
+        mExoPlayerViewManager.goToBackground();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         if (!getActivity().isChangingConfigurations()) {
-            exoPlayerViewManager.releaseVideoPlayer();
+            mExoPlayerViewManager.releaseVideoPlayer();
         }
     }
 }

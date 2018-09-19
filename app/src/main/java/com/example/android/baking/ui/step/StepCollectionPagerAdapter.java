@@ -14,18 +14,18 @@ public class StepCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
     public static final String BUNDLE_KEY_DESC = "key_description";
     public static final String BUNDLE_KEY_VIDEO_URL = "key_video_url";
-    private List<Step> steps;
+    private List<Step> mSteps;
 
     public StepCollectionPagerAdapter(FragmentManager fm, List<Step> steps) {
         super(fm);
-        this.steps = steps;
+        this.mSteps = steps;
     }
 
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putString(BUNDLE_KEY_DESC, steps.get(position).getDescription());
-        bundle.putString(BUNDLE_KEY_VIDEO_URL, steps.get(position).getVideoURL());
+        bundle.putString(BUNDLE_KEY_DESC, mSteps.get(position).getDescription());
+        bundle.putString(BUNDLE_KEY_VIDEO_URL, mSteps.get(position).getVideoURL());
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
         stepDetailFragment.setArguments(bundle);
         return stepDetailFragment;
@@ -33,7 +33,7 @@ public class StepCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return steps.size();
+        return mSteps.size();
     }
 
     @Nullable

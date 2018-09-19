@@ -22,6 +22,8 @@ import com.example.android.baking.ui.detail.DetailActivity;
 import com.example.android.baking.util.ApiService;
 import com.example.android.baking.util.SimpleIdlingResource;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,17 +36,15 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
     public static final String KEY_RECIPE = "recipe";
     @BindView(R.id.rv)
-    public RecyclerView recyclerView;
+    public RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar)
-    public ProgressBar progressBar;
+    public ProgressBar mProgressBar;
     @BindView(R.id.error_message)
-    public TextView errorMessage;
+    public TextView mErrorMessage;
 
     @Inject
     MainViewModelFactory viewModelFactory;
     MainViewModel viewModel;
-    @Inject
-    ApiService apiService;
     private RecipeAdapter adapter;
     @Nullable
     private SimpleIdlingResource idlingResource;
@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
 
         showLoading();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
         adapter = new RecipeAdapter(this, this);
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
 
         getIdlingResource();
     }
@@ -105,25 +105,25 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
     @Override
     public void onClick(Recipe recipe) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        intent.putExtra(KEY_RECIPE, recipe);
+        intent.putExtra(KEY_RECIPE, Parcels.wrap(recipe));
         startActivity(intent);
     }
 
     private void showLoading(){
-        progressBar.setVisibility(View.VISIBLE);
-        errorMessage.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
     }
 
     private void showError() {
-        progressBar.setVisibility(View.INVISIBLE);
-        errorMessage.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
     }
 
     private void showContent() {
-        progressBar.setVisibility(View.INVISIBLE);
-        errorMessage.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 }

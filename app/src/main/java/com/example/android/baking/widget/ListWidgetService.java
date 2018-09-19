@@ -13,6 +13,8 @@ import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.main.MainActivity;
 import com.example.android.baking.util.AppRepository;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -23,28 +25,28 @@ import dagger.android.AndroidInjection;
 public class ListWidgetService extends RemoteViewsService {
 
     @Inject
-    AppRepository appRepository;
+    AppRepository mAppRepository;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         AndroidInjection.inject(this);
         int recipeId = intent.getIntExtra(AppWidget.EXTRA_INGREDIENTS, -1);
-        return new ListRemoteViewFactory(this.getApplicationContext(), appRepository, recipeId);
+        return new ListRemoteViewFactory(this.getApplicationContext(), mAppRepository, recipeId);
     }
 }
 
 class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    Context context;
-    List<Ingredient> ingredients;
-    AppRepository repository;
-    Recipe recipe;
-    int recipeId;
+    private Context mContext;
+    private List<Ingredient> mIngredients;
+    private AppRepository mRepository;
+    private Recipe mRecipe;
+    private int mRecipeId;
 
     public ListRemoteViewFactory(Context applicationContext, AppRepository appRepository, int recipeId) {
-        context = applicationContext;
-        repository = appRepository;
-        this.recipeId = recipeId;
+        mContext = applicationContext;
+        mRepository = appRepository;
+        this.mRecipeId = recipeId;
     }
 
     @Override
@@ -54,15 +56,15 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                context.getString(R.string.preference_key_file),
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(
+                mContext.getString(R.string.preference_key_file),
                 Context.MODE_PRIVATE);
-        int savedRecipeId = sharedPreferences.getInt(context.getString(R.string.preference_key_save_recipe), -1);
-        recipe = repository.getRecipe(savedRecipeId);
-        if (recipe == null) {
-            ingredients = null;
+        int savedRecipeId = sharedPreferences.getInt(mContext.getString(R.string.preference_key_save_recipe), -1);
+        mRecipe = mRepository.getRecipe(savedRecipeId);
+        if (mRecipe == null) {
+            mIngredients = null;
         } else {
-            ingredients = recipe.getIngredients();
+            mIngredients = mRecipe.getIngredients();
         }
     }
 
@@ -73,21 +75,21 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        if (ingredients == null) return 0;
-        return ingredients.size();
+        if (mIngredients == null) return 0;
+        return mIngredients.size();
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
-        if (recipe == null || ingredients == null || ingredients.size() == 0) return null;
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_widget);
-        Ingredient ingredient = ingredients.get(i);
+        if (mRecipe == null || mIngredients == null || mIngredients.size() == 0) return null;
+        RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.list_widget);
+        Ingredient ingredient = mIngredients.get(i);
         views.setTextViewText(R.id.detail_ingredient_tv, ingredient.getIngredient());
-        views.setTextViewText(R.id.detail_quantity_tv, context.getString(R.string.quantity_text,
+        views.setTextViewText(R.id.detail_quantity_tv, mContext.getString(R.string.quantity_text,
                 decimalFormat(ingredient.getQuantity()),
                 ingredient.getMeasure()));
         Bundle extras = new Bundle();
-        extras.putParcelable(MainActivity.KEY_RECIPE, recipe);
+        extras.putParcelable(MainActivity.KEY_RECIPE, Parcels.wrap(mRecipe));
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         views.setOnClickFillInIntent(R.id.detail_ingredient_tv, fillInIntent);
