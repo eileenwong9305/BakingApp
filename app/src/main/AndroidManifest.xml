@@ -38,7 +38,6 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/FullscreenTheme" />
 
-        <service android:name=".widget.ShowIngredientService"/>
         <service android:name=".widget.ListWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
 

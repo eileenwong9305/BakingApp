@@ -11,11 +11,11 @@ import com.google.gson.annotations.SerializedName;
 public class Step{
 
     @SerializedName("id")
-    int step;
-    String shortDescription;
-    String description;
-    String videoURL;
-    String thumbnailURL;
+    private int step;
+    private String shortDescription;
+    private String description;
+    private String videoURL;
+    private String thumbnailURL;
 
     @Ignore
     public Step() {}

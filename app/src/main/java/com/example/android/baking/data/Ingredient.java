@@ -7,9 +7,9 @@ import android.os.Parcelable;
 @org.parceler.Parcel
 public class Ingredient{
 
-    float quantity;
-    String measure;
-    String ingredient;
+    private float quantity;
+    private String measure;
+    private String ingredient;
 
     @Ignore
     public Ingredient() {}

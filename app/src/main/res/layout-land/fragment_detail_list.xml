@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewmodel"
-            type="com.example.android.baking.ui.detail.DetailViewModel"/>
+            type="com.example.android.baking.ui.detail.DetailViewModel" />
     </data>
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
@@ -27,10 +29,10 @@
                 style="@style/DetailTitleStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@{viewmodel.recipe.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{viewmodel.recipe.name}"
                 tools:text="Nutella Pie" />
 
             <TextView

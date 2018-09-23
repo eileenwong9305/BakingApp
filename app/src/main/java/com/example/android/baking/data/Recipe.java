@@ -19,14 +19,14 @@ public class Recipe {
 
     @PrimaryKey
     @NonNull
-    int id;
-    String name;
+    private int id;
+    private String name;
     @TypeConverters(IngredientTypeConverters.class)
-    List<Ingredient> ingredients = null;
+    private List<Ingredient> ingredients = null;
     @TypeConverters(StepTypeConverters.class)
-    List<Step> steps = null;
-    int servings;
-    String image;
+    private List<Step> steps = null;
+    private int servings;
+    private String image;
 
     @Ignore
     public Recipe() {}

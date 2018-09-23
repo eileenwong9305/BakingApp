@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.support.annotation.StringRes;
 
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 
 public class DetailViewModel extends AndroidViewModel {
 
-    public final ObservableBoolean hideLeftButton = new ObservableBoolean();
     public final ObservableInt position = new ObservableInt();
     private final SingleLiveEvent<Integer> mChangeFragmentEvent = new SingleLiveEvent<>();
     private final SnackbarMessage mSnackbarText = new SnackbarMessage();

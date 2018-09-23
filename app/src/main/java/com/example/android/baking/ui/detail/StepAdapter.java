@@ -28,13 +28,18 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     public StepViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ListStepItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.list_step_item, parent, false);
-        binding.setListener(mClickListener);
         return new StepViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StepViewHolder holder, int position) {
-        holder.binding.setStep(mSteps.get(position));
+    public void onBindViewHolder(@NonNull final StepViewHolder holder, int position) {
+        holder.binding.setStep(mSteps.get(holder.getAdapterPosition()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickListener.onClick(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -48,18 +53,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         notifyDataSetChanged();
     }
 
-    public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public interface StepItemClickListener {
+        void onClick(int position);
+    }
+
+    public class StepViewHolder extends RecyclerView.ViewHolder {
 
         final ListStepItemBinding binding;
 
         public StepViewHolder(ListStepItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-        }
-
-        @Override
-        public void onClick(View view) {
-            mClickListener.onClick(getAdapterPosition());
         }
     }
 }

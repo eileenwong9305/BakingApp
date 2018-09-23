@@ -12,6 +12,7 @@ import com.example.android.baking.data.Ingredient;
 import com.example.android.baking.data.Recipe;
 import com.example.android.baking.ui.main.MainActivity;
 import com.example.android.baking.util.AppRepository;
+import com.example.android.baking.util.BindingUtils;
 
 import org.parceler.Parcels;
 
@@ -86,7 +87,7 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
         Ingredient ingredient = mIngredients.get(i);
         views.setTextViewText(R.id.detail_ingredient_tv, ingredient.getIngredient());
         views.setTextViewText(R.id.detail_quantity_tv, mContext.getString(R.string.quantity_text,
-                decimalFormat(ingredient.getQuantity()),
+                BindingUtils.decimalFormat(ingredient.getQuantity()),
                 ingredient.getMeasure()));
         Bundle extras = new Bundle();
         extras.putParcelable(MainActivity.KEY_RECIPE, Parcels.wrap(mRecipe));
@@ -116,13 +117,13 @@ class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
         return false;
     }
 
-    private String decimalFormat(float f) {
-        if (f == (long) f) {
-            return String.format(Locale.US, "%d", (long) f);
-        } else {
-            return String.format("%s", f);
-        }
-    }
+//    private String decimalFormat(float f) {
+//        if (f == (long) f) {
+//            return String.format(Locale.US, "%d", (long) f);
+//        } else {
+//            return String.format("%s", f);
+//        }
+//    }
 
 
 }

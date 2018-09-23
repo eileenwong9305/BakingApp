@@ -5,7 +5,7 @@ import android.view.View;
 
 public class SnackbarUtils {
 
-    public static void showSnackbar(View v,String snackbarText) {
+    public static void showSnackbar(View v, String snackbarText) {
         if (v == null || snackbarText == null) {
             return;
         }

@@ -39,6 +39,7 @@ public class ExoPlayerViewManager {
     private SimpleExoPlayer mPlayer;
     private boolean mAudioFocusGranted = false;
     private boolean mAudioIsPlaying = false;
+
     private ExoPlayerViewManager(String videoUri, Context context) {
         this.mVideoUri = Uri.parse(videoUri);
         this.mContext = context;

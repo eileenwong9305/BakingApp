@@ -31,15 +31,12 @@ import com.example.android.baking.widget.AppWidget;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 public class DetailActivity extends AppCompatActivity implements DetailListFragment.OnStepClickListener {
 
     public static final String KEY_STEPS = "steps";
     public static final String KEY_STEP_NUMBER = "step_number";
     private Recipe mRecipe;
     private boolean mTwoPane;
-    private ActivityDetailBinding mBinding;
     private DetailViewModel mViewModel;
 
     public static DetailViewModel obtainViewModel(FragmentActivity activity) {
@@ -49,7 +46,7 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+        ActivityDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         Intent intent = getIntent();
         if (intent != null) {
             if (intent.hasExtra(MainActivity.KEY_RECIPE)) {
@@ -59,7 +56,7 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
 
         mViewModel = obtainViewModel(this);
         mViewModel.start(mRecipe);
-        mBinding.setViewmodel(mViewModel);
+        binding.setViewmodel(mViewModel);
         setupSnackbar();
         setupActionBar();
 
@@ -134,10 +131,9 @@ public class DetailActivity extends AppCompatActivity implements DetailListFragm
         if (mTwoPane) {
             mViewModel.setPosition(position);
             changeFragment(position);
-            ;
         } else {
             Intent intent = new Intent(this, StepActivity.class);
-            intent.putExtra(KEY_STEPS, Parcels.wrap((ArrayList) mRecipe.getSteps()));
+            intent.putExtra(KEY_STEPS, Parcels.wrap(mRecipe.getSteps()));
             intent.putExtra(KEY_STEP_NUMBER, position);
             startActivity(intent);
         }

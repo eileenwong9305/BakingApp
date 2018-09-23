@@ -17,20 +17,13 @@ import com.example.android.baking.databinding.FragmentDetailListBinding;
 
 import org.parceler.Parcels;
 
-public class DetailListFragment extends Fragment {
+public class DetailListFragment extends Fragment implements StepAdapter.StepItemClickListener {
 
     private static final String ARG_KEY_RECIPE = "arg_recipe";
     private static final String BUNDLE_KEY_RECIPE = "bundle_recipe";
     private Recipe mRecipe;
     private OnStepClickListener mStepClickListener;
     private FragmentDetailListBinding mViewBinding;
-
-    private StepItemClickListener mClickListener = new StepItemClickListener() {
-        @Override
-        public void onClick(int position) {
-            mStepClickListener.onStepSelected(position);
-        }
-    };
 
     public DetailListFragment() {
     }
@@ -60,7 +53,7 @@ public class DetailListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null && savedInstanceState.containsKey(BUNDLE_KEY_RECIPE)) {
             mRecipe = Parcels.unwrap(savedInstanceState.getParcelable(BUNDLE_KEY_RECIPE));
         } else {
@@ -104,8 +97,13 @@ public class DetailListFragment extends Fragment {
         LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getActivity());
         mViewBinding.stepsRv.setLayoutManager(stepLayoutManager);
         mViewBinding.stepsRv.setHasFixedSize(true);
-        StepAdapter stepAdapter = new StepAdapter(mClickListener, mRecipe.getSteps());
+        StepAdapter stepAdapter = new StepAdapter(this, mRecipe.getSteps());
         mViewBinding.stepsRv.setAdapter(stepAdapter);
+    }
+
+    @Override
+    public void onClick(int position) {
+        mStepClickListener.onStepSelected(position);
     }
 
     public interface OnStepClickListener {

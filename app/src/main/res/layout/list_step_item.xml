@@ -5,10 +5,6 @@
         <variable
             name="step"
             type="com.example.android.baking.data.Step"/>
-
-        <variable
-            name="listener"
-            type="com.example.android.baking.ui.detail.StepItemClickListener"/>
     </data>
 
     <LinearLayout
@@ -18,8 +14,7 @@
         android:layout_marginTop="@dimen/step_margin_vertical"
         android:background="@drawable/touch_selector"
         android:orientation="horizontal"
-        android:padding="@dimen/list_padding"
-        android:onClick="@{() -> listener.onClick(step.step)}">
+        android:padding="@dimen/list_padding">
 
         <TextView
             android:id="@+id/detail_step_num_tv"
