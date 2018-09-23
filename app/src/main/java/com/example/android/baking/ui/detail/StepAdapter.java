@@ -1,41 +1,40 @@
-package com.example.android.baking.adapter;
+package com.example.android.baking.ui.detail;
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.baking.R;
 import com.example.android.baking.data.Step;
+import com.example.android.baking.databinding.ListStepItemBinding;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
     private List<Step> mSteps;
     private StepItemClickListener mClickListener;
 
-    public StepAdapter(StepItemClickListener listener) {
-        this.mClickListener = listener;
+    public StepAdapter(StepItemClickListener listener, List<Step> steps) {
+        mClickListener = listener;
+        mSteps = steps;
     }
 
     @NonNull
     @Override
     public StepViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.list_step_item, parent, false);
-        return new StepViewHolder(view);
+        ListStepItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.list_step_item, parent, false);
+        binding.setListener(mClickListener);
+        return new StepViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StepViewHolder holder, int position) {
-        holder.bind(holder.getAdapterPosition());
+        holder.binding.setStep(mSteps.get(position));
     }
 
     @Override
@@ -49,27 +48,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         notifyDataSetChanged();
     }
 
-    public interface StepItemClickListener {
-        void onClick(int position);
-    }
-
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.detail_step_num_tv)
-        TextView stepNumTextView;
-        @BindView(R.id.detail_short_desc_tv)
-        TextView shortDescTextView;
+        final ListStepItemBinding binding;
 
-        public StepViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
-        }
-
-        void bind(int itemIndex) {
-            Step step = mSteps.get(itemIndex);
-            stepNumTextView.setText(String.valueOf(step.getStep() + 1));
-            shortDescTextView.setText(step.getShortDescription());
+        public StepViewHolder(ListStepItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         @Override

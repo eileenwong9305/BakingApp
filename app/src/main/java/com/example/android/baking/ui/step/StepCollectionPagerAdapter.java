@@ -8,12 +8,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.android.baking.data.Step;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class StepCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static final String BUNDLE_KEY_DESC = "key_description";
-    public static final String BUNDLE_KEY_VIDEO_URL = "key_video_url";
+    public static final String BUNDLE_KEY_STEP = "key_step";
     private List<Step> mSteps;
 
     public StepCollectionPagerAdapter(FragmentManager fm, List<Step> steps) {
@@ -24,8 +25,7 @@ public class StepCollectionPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putString(BUNDLE_KEY_DESC, mSteps.get(position).getDescription());
-        bundle.putString(BUNDLE_KEY_VIDEO_URL, mSteps.get(position).getVideoURL());
+        bundle.putParcelable(BUNDLE_KEY_STEP, Parcels.wrap(mSteps.get(position)));
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
         stepDetailFragment.setArguments(bundle);
         return stepDetailFragment;

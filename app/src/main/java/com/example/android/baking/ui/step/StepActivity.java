@@ -8,21 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.android.baking.R;
 import com.example.android.baking.data.Step;
 import com.example.android.baking.ui.detail.DetailActivity;
-import com.rd.PageIndicatorView;
 
 import org.parceler.Parcels;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class StepActivity extends AppCompatActivity {
 
-    @BindView(R.id.pager)
-    public ViewPager mViewPager;
-    @BindView(R.id.page_indicator_view)
-    public PageIndicatorView mPageIndicatorView;
     StepCollectionPagerAdapter mStepCollectionPagerAdapter;
     private int mStepNumber;
     private List<Step> mSteps;
@@ -31,8 +23,6 @@ public class StepActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
-
-        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -45,8 +35,8 @@ public class StepActivity extends AppCompatActivity {
         }
 
         mStepCollectionPagerAdapter = new StepCollectionPagerAdapter(getSupportFragmentManager(), mSteps);
-        mViewPager.setAdapter(mStepCollectionPagerAdapter);
-        mViewPager.setCurrentItem(mStepNumber);
-
+        ViewPager viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(mStepCollectionPagerAdapter);
+        viewPager.setCurrentItem(mStepNumber);
     }
 }

@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/step_margin_vertical"
-    android:layout_marginTop="@dimen/step_margin_vertical"
-    android:background="@drawable/touch_selector"
-    android:orientation="horizontal"
-    android:padding="@dimen/list_padding">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="step"
+            type="com.example.android.baking.data.Step"/>
 
-    <TextView
-        android:id="@+id/detail_step_num_tv"
-        android:layout_width="@dimen/numbering_width"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:text="17" />
+        <variable
+            name="listener"
+            type="com.example.android.baking.ui.detail.StepItemClickListener"/>
+    </data>
 
-    <TextView
-        android:id="@+id/detail_short_desc_tv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="@dimen/line_spacing_extra"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        tools:text="Coolfsdfsdv dvdfvfdv scs sdv vsvddsvsdvsdv svsdvsv" />
+        android:layout_marginBottom="@dimen/step_margin_vertical"
+        android:layout_marginTop="@dimen/step_margin_vertical"
+        android:background="@drawable/touch_selector"
+        android:orientation="horizontal"
+        android:padding="@dimen/list_padding"
+        android:onClick="@{() -> listener.onClick(step.step)}">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/detail_step_num_tv"
+            android:layout_width="@dimen/numbering_width"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(step.step)}"
+            tools:text="17" />
+
+        <TextView
+            android:id="@+id/detail_short_desc_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/line_spacing_extra"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            android:text="@{step.shortDescription}"
+            tools:text="Coolfsdfsdv dvdfvfdv scs sdv vsvddsvsdvsdv svsdvsv" />
+
+    </LinearLayout>
+</layout>

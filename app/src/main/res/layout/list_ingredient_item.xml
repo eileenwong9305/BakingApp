@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/content_margin_vertical"
-    android:layout_marginTop="@dimen/content_margin_vertical"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="com.example.android.baking.util.BindingUtils"/>
+        <variable
+            name="ingredient"
+            type="com.example.android.baking.data.Ingredient"/>
+    </data>
 
-    <CheckBox
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_marginBottom="@dimen/content_margin_vertical"
+        android:layout_marginTop="@dimen/content_margin_vertical"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/detail_ingredient_tv"
-        style="@style/IngredientListTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        tools:text="Sugar" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/detail_quantity_tv"
-        style="@style/MeasureTextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="2 spoons" />
+        <TextView
+            android:id="@+id/detail_ingredient_tv"
+            style="@style/IngredientListTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@{ingredient.ingredient}"
+            tools:text="Sugar" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/detail_quantity_tv"
+            style="@style/MeasureTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{@string/quantity_text(BindingUtils.decimalFormat(ingredient.quantity), ingredient.measure)}"
+            tools:text="2 spoons" />
+
+    </LinearLayout>
+</layout>

@@ -16,9 +16,6 @@ import com.example.android.baking.ui.step.StepDetailFragment;
 import com.example.android.baking.util.ExoPlayerViewManager;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -51,22 +48,7 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
     };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-    @BindView(R.id.full_player_view)
-    PlayerView mPlayerView;
+    private PlayerView mPlayerView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -84,10 +66,6 @@ public class FullscreenActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    @BindView(R.id.exo_fullscreen_icon)
-    public ImageView mFullScreenImageView;
-    @BindView(R.id.exo_fullscreen_button)
-    public FrameLayout mFullScreenLayout;
     private String mVideoUrl;
     private ExoPlayerViewManager mExoPlayerViewManager;
     private boolean mDestroyVideo = true;
@@ -98,15 +76,29 @@ public class FullscreenActivity extends AppCompatActivity {
             hide();
         }
     };
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
-        ButterKnife.bind(this);
 
         mVisible = true;
 
+        mPlayerView = findViewById(R.id.full_player_view);
         mPlayerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +106,8 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
-        mFullScreenImageView.setImageResource(R.drawable.exo_controls_fullscreen_exit);
+        ImageView fullScreenImageView = findViewById(R.id.exo_fullscreen_icon);
+        fullScreenImageView.setImageResource(R.drawable.exo_controls_fullscreen_exit);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(StepDetailFragment.KEY_VIDEO_URL_FULLSCREEN)) {
@@ -124,7 +117,8 @@ public class FullscreenActivity extends AppCompatActivity {
         mExoPlayerViewManager.prepareExoPlayer(mPlayerView);
         mExoPlayerViewManager.goToForeground();
 
-        mFullScreenLayout.setOnClickListener(new View.OnClickListener() {
+        FrameLayout fullScreenLayout = findViewById(R.id.exo_fullscreen_button);
+        fullScreenLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDestroyVideo = false;
